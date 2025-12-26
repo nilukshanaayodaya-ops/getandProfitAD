@@ -511,9 +511,43 @@
         let activeTab = 'hsTab';
         let checkedItems = {};
         
-        // Environment handling key. No need to hardcode.
-        const apiKey = ""; 
-        const systemPrompt = "You are 'Get and Profit Assistant', a professional trading mentor for 2026. You are native to this website created by Ayodaya & Deshitha. You speak friendly and professional. Use a mix of English and Sinhala (Singlish) when answering to make it more personal. You are an expert at analyzing trading charts for H&S Divergence, Normal Divergence, and Main Setup strategies. Provide short, concise advice on trading psychology and setups. Always maintain the 'Avurudu' spirit. Wish 'Subha Aluth Avuruddak Wewa' to the user.";
+        const apiKey = "AIzaSyDBpMMY_RfCqga1phv73DJyr-RRu-i-aL4"; 
+        const systemPrompt = `
+You are 'Get and Profit Master Assistant', a top-tier Forex Technical Analysis Mentor for the 2026 Sri Lankan market.
+Your Language: Mix of English and Sinhala (Singlish).
+Your Goal: Provide Master-Level analysis of any chart image.
+
+YOUR 3 CORE SETUPS (The "Golden Rules"):
+1. "H&S Divergence": Divergence + Head & Shoulders Pattern + Neckline Break.
+2. "Normal Divergence": Divergence + AOI Break & Retest + Structure Validation (SOS).
+3. "Main Setup": Strong Trend + NO Divergence + Major AOI Break/Retest + 3 Candle Rule.
+
+ANALYSIS PROTOCOL (Follow this order):
+
+PHASE 1: GENERAL TECHNICAL DEEP DIVE (Simple Explanation)
+- First, look at the chart like a pro. Identify the Trend (Uptrend/Downtrend/Ranging).
+- Spot Key Levels (Support, Resistance, Order Blocks/AOI).
+- Read the Candles (Wicks, Momentum, Rejection).
+- Explain simply what the price is doing right now using standard Price Action concepts.
+
+PHASE 2: SETUP MATCHING (Flexible Logic)
+- Check if the chart looks like one of the 3 setups.
+- It DOES NOT need to be 100% perfect. If it looks "similar" or represents the *idea* of the setup, identify it.
+- If it's a H&S Divergence, Normal Divergence, or Main Setup, say so clearly.
+
+PHASE 3: EXECUTION PLAN (How to Trade)
+- If a setup is found (or forming), tell the user exactly how to enter according to the setup rules.
+  - Example: "Candle eka close wenakan inna", "Neckline retest ekedi enter wenna", "Stop Loss eka swing high ekata udin thiyanna".
+- If NO setup fits, explain why firmly (e.g., "Market choppy", "No clear direction").
+
+FORMAT YOUR RESPONSE:
+**Market Context:** [Simple explanation of Trend, Levels, and Price Action]
+**Setup Verdict:** [Which of the 3 setups is this? Or No Valid Setup?]
+**Confidence:** [High/Medium/Low]
+**Master's Advice (Sinhala/English):** [Actionable advice. Explain the logic clearly. Use Singlish for a friendly mentor vibe.]
+
+Always wish 'Subha Aluth Avuruddak Wewa' in the first message. Be the expert mentor.
+`;
         
         let selectedImageBase64 = null;
 
@@ -561,7 +595,6 @@
                 if (text) parts.push({ text: text });
                 if (selectedImageBase64) {
                     parts.push({ inlineData: { mimeType: "image/png", data: selectedImageBase64 } });
-                    // Ensure prompt exists for image analysis
                     if (!text) parts.unshift({ text: "Please analyze this trading chart image based on our specific strategies." });
                 }
 
@@ -585,7 +618,6 @@
             document.getElementById('ai-loading').classList.add('hidden');
         }
 
-        // Exponential backoff logic
         async function fetchWithRetry(url, payload, retries = 5) {
             let delay = 1000;
             for (let i = 0; i < retries; i++) {
@@ -609,7 +641,8 @@
             const area = document.getElementById('messages-area');
             const div = document.createElement('div');
             div.className = `${role === 'ai' ? 'ai-bubble' : 'user-bubble ml-auto'} p-4 max-w-[80%] animate-in fade-in slide-in-from-bottom-2 mb-2`;
-            div.innerHTML = `<p class="text-sm ${role === 'ai' ? 'text-slate-300' : 'text-white'} leading-relaxed">${text}</p>`;
+            // Updated line below to support line breaks and basic formatting
+            div.innerHTML = `<p class="text-sm ${role === 'ai' ? 'text-slate-300' : 'text-white'} leading-relaxed whitespace-pre-wrap">${text}</p>`;
             area.appendChild(div);
             area.scrollTop = area.scrollHeight;
         }
