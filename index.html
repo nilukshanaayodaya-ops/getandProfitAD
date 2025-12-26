@@ -3,19 +3,19 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>GET AND PROFIT | 2026 Sri Lankan Edition</title>
+    <title>GET AND PROFIT | 2026 Avurudu Special</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <style>
         @import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;600;700;800&family=JetBrains+Mono:wght@500&display=swap');
-        @import url('https://fonts.googleapis.com/css2?family=Mountains+of+Christmas:wght@700&family=Abhaya+Libre:wght@800&display=swap');
+        @import url('https://fonts.googleapis.com/css2?family=Abhaya+Libre:wght@600;800&family=Noto+Serif+Sinhala:wght@600;800&display=swap');
         
         :root {
-            --sl-maroon: #800000;
-            --sl-gold: #ffbe29;
-            --sl-orange: #ff8c00;
-            --sl-green: #006400;
-            --bg-dark: #08090b;
+            --sl-maroon: #8a1c1c;
+            --sl-gold: #fbbf24;
+            --sl-orange: #ea580c;
+            --sl-green: #15803d;
+            --bg-dark: #0f0505; /* Slightly reddish dark bg for warmth */
         }
 
         body {
@@ -25,9 +25,9 @@
             overflow-x: hidden;
             min-height: 100vh;
             background-image: 
-                radial-gradient(circle at 50% 0%, rgba(128, 0, 0, 0.3) 0%, transparent 60%),
-                radial-gradient(circle at 100% 100%, rgba(0, 100, 0, 0.1) 0%, transparent 50%),
-                repeating-linear-gradient(45deg, rgba(255, 190, 41, 0.02) 0px, rgba(255, 190, 41, 0.02) 1px, transparent 1px, transparent 20px);
+                radial-gradient(circle at 50% 0%, rgba(251, 191, 36, 0.15) 0%, transparent 60%),
+                radial-gradient(circle at 100% 100%, rgba(21, 128, 61, 0.1) 0%, transparent 50%),
+                repeating-linear-gradient(45deg, rgba(138, 28, 28, 0.03) 0px, rgba(138, 28, 28, 0.03) 1px, transparent 1px, transparent 20px);
             position: relative;
             padding-top: 40px;
         }
@@ -36,33 +36,33 @@
             position: fixed;
             top: 0;
             bottom: 0;
-            width: 40px;
+            width: 45px;
             z-index: 40;
             background-image: 
-                radial-gradient(circle at 0% 50%, transparent 10px, #ffbe29 11px, #ffbe29 13px, transparent 14px),
-                radial-gradient(circle at 100% 50%, transparent 10px, #ffbe29 11px, #ffbe29 13px, transparent 14px);
+                radial-gradient(circle at 0% 50%, transparent 10px, #fbbf24 11px, #fbbf24 13px, transparent 14px),
+                radial-gradient(circle at 100% 50%, transparent 10px, #fbbf24 11px, #fbbf24 13px, transparent 14px);
             background-size: 40px 60px;
-            opacity: 0.15;
+            opacity: 0.2;
             pointer-events: none;
         }
-        .liyawela-left { left: 0; border-right: 1px solid rgba(255, 190, 41, 0.1); }
-        .liyawela-right { right: 0; border-left: 1px solid rgba(255, 190, 41, 0.1); }
+        .liyawela-left { left: 0; border-right: 1px solid rgba(251, 191, 36, 0.15); }
+        .liyawela-right { right: 0; border-left: 1px solid rgba(251, 191, 36, 0.15); }
 
         .gok-kola-strip {
             position: fixed;
             top: 0;
             left: 0;
             width: 100%;
-            height: 30px;
+            height: 35px;
             z-index: 100;
             background: 
-                linear-gradient(135deg, #6bbf44 25%, transparent 25%) -15px 0,
-                linear-gradient(225deg, #6bbf44 25%, transparent 25%) -15px 0,
-                linear-gradient(315deg, #4a8028 25%, transparent 25%),
-                linear-gradient(45deg, #4a8028 25%, transparent 25%);
+                linear-gradient(135deg, #84cc16 25%, transparent 25%) -15px 0,
+                linear-gradient(225deg, #84cc16 25%, transparent 25%) -15px 0,
+                linear-gradient(315deg, #4d7c0f 25%, transparent 25%),
+                linear-gradient(45deg, #4d7c0f 25%, transparent 25%);
             background-size: 30px 30px;
-            background-color: #2d5a12;
-            box-shadow: 0 4px 15px rgba(0,0,0,0.6);
+            background-color: #365314;
+            box-shadow: 0 4px 20px rgba(0,0,0,0.7);
             border-bottom: 3px solid var(--sl-gold);
         }
 
@@ -71,13 +71,14 @@
             top: -10%;
             color: #ef4444;
             font-size: 20px;
-            opacity: 0.6;
+            opacity: 0.8;
             z-index: 1;
+            filter: drop-shadow(0 0 5px rgba(239, 68, 68, 0.5));
             animation: fall linear infinite;
         }
         @keyframes fall {
             0% { transform: translateY(0) rotate(0deg); opacity: 0; }
-            10% { opacity: 0.8; }
+            10% { opacity: 1; }
             100% { transform: translateY(100vh) rotate(360deg); opacity: 0; }
         }
 
@@ -89,50 +90,47 @@
             height: 100%;
             pointer-events: none;
             z-index: 0;
-            opacity: 0.5;
+            opacity: 0.6;
         }
 
         .glass-card {
-            background: rgba(255, 255, 255, 0.02);
-            backdrop-filter: blur(12px);
-            border: 1px solid rgba(255, 255, 255, 0.05);
+            background: rgba(255, 255, 255, 0.03);
+            backdrop-filter: blur(16px);
+            border: 1px solid rgba(255, 255, 255, 0.08);
             transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
         }
 
         .litha-card {
-            background: linear-gradient(145deg, rgba(255, 241, 200, 0.05), rgba(255, 190, 41, 0.02));
-            border: 1px solid rgba(255, 190, 41, 0.2);
+            background: linear-gradient(145deg, rgba(251, 191, 36, 0.08), rgba(138, 28, 28, 0.05));
+            border: 1px solid rgba(251, 191, 36, 0.3);
             position: relative;
         }
         .litha-card::before {
             content: '';
             position: absolute;
             top: 4px; left: 4px; right: 4px; bottom: 4px;
-            border: 1px dashed rgba(255, 190, 41, 0.2);
+            border: 1px dashed rgba(251, 191, 36, 0.3);
             border-radius: 1.5rem;
             pointer-events: none;
         }
 
         .glass-card:hover {
             border-color: var(--sl-gold);
-            background: rgba(255, 255, 255, 0.04);
+            background: rgba(255, 255, 255, 0.06);
             transform: translateY(-2px);
-            box-shadow: 0 10px 30px rgba(128, 0, 0, 0.2);
+            box-shadow: 0 10px 40px rgba(138, 28, 28, 0.15);
         }
 
-        .ny-text {
-            font-family: 'Mountains of Christmas', cursive;
-            background: linear-gradient(to bottom, var(--sl-gold), #fb923c);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            filter: drop-shadow(0 0 10px rgba(255, 190, 41, 0.4));
+        .sinhala-font {
+            font-family: 'Noto Serif Sinhala', serif;
         }
 
         .sinhala-wish {
-            font-family: 'Abhaya Libre', serif;
+            font-family: 'Noto Serif Sinhala', serif;
             color: var(--sl-gold);
-            text-shadow: 0 0 20px rgba(255, 190, 41, 0.5);
-            letter-spacing: 1px;
+            text-shadow: 0 2px 15px rgba(251, 191, 36, 0.6);
+            letter-spacing: 0.5px;
+            line-height: 1.4;
         }
 
         @keyframes flag-wave {
@@ -144,19 +142,7 @@
         .flag-icon {
             display: inline-block;
             animation: flag-wave 3s infinite ease-in-out;
-            filter: drop-shadow(0 0 8px rgba(255, 190, 41, 0.5));
-        }
-
-        @keyframes flicker {
-            0%, 100% { transform: scale(1); opacity: 0.9; }
-            25% { transform: scale(1.1) rotate(-2deg); opacity: 1; }
-            50% { transform: scale(0.95) rotate(2deg); opacity: 0.8; }
-            75% { transform: scale(1.05) rotate(-1deg); opacity: 1; }
-        }
-
-        .pahana-flame {
-            transform-origin: bottom center;
-            animation: flicker 0.8s infinite ease-in-out;
+            filter: drop-shadow(0 0 10px rgba(251, 191, 36, 0.4));
         }
 
         @keyframes koha-sing {
@@ -171,21 +157,30 @@
             transform-origin: bottom center;
         }
 
+        /* SUN ANIMATION */
+        @keyframes sun-spin {
+            from { transform: rotate(0deg); }
+            to { transform: rotate(360deg); }
+        }
+        .avurudu-sun {
+            animation: sun-spin 20s linear infinite;
+        }
+
         .sun-glow {
             position: absolute;
             top: 50%;
             left: 50%;
             transform: translate(-50%, -50%);
-            width: 300px;
-            height: 300px;
-            background: radial-gradient(circle, rgba(255, 190, 41, 0.15) 0%, transparent 70%);
+            width: 400px;
+            height: 400px;
+            background: radial-gradient(circle, rgba(251, 191, 36, 0.2) 0%, rgba(234, 88, 12, 0.05) 50%, transparent 70%);
             z-index: -1;
             pointer-events: none;
             animation: sun-pulse 4s infinite ease-in-out;
         }
         @keyframes sun-pulse {
-            0%, 100% { opacity: 0.5; transform: translate(-50%, -50%) scale(1); }
-            50% { opacity: 0.8; transform: translate(-50%, -50%) scale(1.2); }
+            0%, 100% { opacity: 0.6; transform: translate(-50%, -50%) scale(1); }
+            50% { opacity: 0.9; transform: translate(-50%, -50%) scale(1.1); }
         }
 
         .countdown-container {
@@ -204,9 +199,9 @@
         }
 
         .check-card.checked {
-            background: rgba(0, 100, 0, 0.2);
+            background: rgba(21, 128, 61, 0.2);
             border-color: var(--sl-green);
-            box-shadow: inset 0 0 20px rgba(0, 100, 0, 0.1);
+            box-shadow: inset 0 0 20px rgba(21, 128, 61, 0.15);
         }
 
         ::-webkit-scrollbar { width: 6px; }
@@ -224,12 +219,133 @@
             color: var(--sl-gold);
         }
 
-        .chat-container { height: 500px; display: flex; flex-direction: column; }
-        .messages-area { flex-grow: 1; overflow-y: auto; padding-right: 10px; }
-        .ai-bubble { background: rgba(255, 190, 41, 0.08); border: 1px solid rgba(255, 190, 41, 0.2); border-radius: 20px 20px 20px 0; }
-        .user-bubble { background: rgba(128, 0, 0, 0.2); border: 1px solid rgba(128, 0, 0, 0.3); border-radius: 20px 20px 0 20px; }
-        .typing-dot { width: 6px; height: 6px; background: var(--sl-gold); border-radius: 50%; animation: typing 1s infinite ease-in-out; }
-        @keyframes typing { 0%, 100% { transform: translateY(0); } 50% { transform: translateY(-5px); } }
+        /* CHAT STYLES */
+        .chat-container { 
+            height: 580px; 
+            display: flex; 
+            flex-direction: column; 
+            background: rgba(10, 12, 16, 0.8);
+            backdrop-filter: blur(25px);
+            border-radius: 2rem;
+            border: 1px solid rgba(251, 191, 36, 0.2);
+            box-shadow: 0 25px 60px -12px rgba(0, 0, 0, 0.6);
+            overflow: hidden;
+            position: relative;
+        }
+        
+        .messages-area { 
+            flex-grow: 1; 
+            overflow-y: auto; 
+            padding: 25px;
+            display: flex;
+            flex-direction: column;
+            gap: 1.5rem;
+            scroll-behavior: smooth;
+        }
+
+        .message-row {
+            display: flex;
+            align-items: flex-end;
+            gap: 12px;
+            max-width: 85%;
+            animation: slideIn 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+        }
+
+        .message-row.user { align-self: flex-end; flex-direction: row-reverse; }
+
+        .avatar {
+            width: 38px; height: 38px;
+            border-radius: 12px;
+            display: flex; align-items: center; justify-content: center;
+            font-size: 18px; flex-shrink: 0;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.3);
+            border: 1px solid rgba(255,255,255,0.1);
+        }
+
+        .ai-avatar {
+            background: linear-gradient(135deg, #1e293b, #0f172a);
+            color: var(--sl-gold);
+            border-color: rgba(251, 191, 36, 0.4);
+        }
+
+        .user-avatar {
+            background: linear-gradient(135deg, #800000, #500000);
+            color: white;
+            border-color: rgba(128, 0, 0, 0.3);
+        }
+
+        .bubble {
+            padding: 18px 24px;
+            border-radius: 24px;
+            font-size: 14px;
+            line-height: 1.7;
+            position: relative;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+            white-space: pre-wrap;
+        }
+
+        .ai-bubble { 
+            background: linear-gradient(145deg, rgba(30, 41, 59, 0.95), rgba(15, 23, 42, 0.95));
+            color: #e2e8f0;
+            border-bottom-left-radius: 4px;
+            border: 1px solid rgba(255, 255, 255, 0.05);
+            border-left: 3px solid var(--sl-gold);
+        }
+        .ai-bubble strong { color: var(--sl-gold); font-weight: 800; }
+
+        .user-bubble { 
+            background: linear-gradient(135deg, #991b1b, #7f1d1d);
+            color: white;
+            border-bottom-right-radius: 4px;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .input-area {
+            padding: 20px;
+            background: rgba(0,0,0,0.6);
+            border-top: 1px solid rgba(255,255,255,0.05);
+            display: flex; gap: 12px; align-items: center;
+            backdrop-filter: blur(10px);
+        }
+
+        .input-field {
+            flex-grow: 1;
+            background: rgba(255,255,255,0.03);
+            border: 1px solid rgba(255,255,255,0.1);
+            border-radius: 30px;
+            padding: 16px 24px;
+            color: white;
+            font-size: 14px;
+            box-shadow: inset 0 2px 5px rgba(0,0,0,0.2);
+        }
+        
+        .input-field:focus { outline: none; border-color: var(--sl-gold); background: rgba(255,255,255,0.06); }
+
+        .action-btn {
+            width: 50px; height: 50px; border-radius: 50%;
+            display: flex; align-items: center; justify-content: center;
+            cursor: pointer; transition: all 0.3s;
+        }
+
+        .upload-btn { background: rgba(255,255,255,0.05); color: #94a3b8; border: 1px solid rgba(255,255,255,0.05); }
+        .upload-btn:hover { background: rgba(255,255,255,0.1); color: white; }
+
+        .send-btn {
+            background: linear-gradient(135deg, var(--sl-gold), #d97706);
+            color: #1a0505;
+            box-shadow: 0 0 20px rgba(251, 191, 36, 0.3);
+            border: none;
+        }
+        .send-btn:hover { transform: scale(1.1); }
+
+        @keyframes slideIn { from { opacity: 0; transform: translateY(20px); } to { opacity: 1; transform: translateY(0); } }
+        
+        .typing-indicator { display: flex; gap: 6px; padding: 12px 16px; background: rgba(255,255,255,0.03); border-radius: 20px; width: fit-content; }
+        .typing-dot { width: 8px; height: 8px; background: var(--sl-gold); border-radius: 50%; animation: bounce 1.4s infinite ease-in-out both; }
+        .typing-dot:nth-child(1) { animation-delay: -0.32s; }
+        .typing-dot:nth-child(2) { animation-delay: -0.16s; }
+        @keyframes bounce { 0%, 80%, 100% { transform: scale(0); opacity: 0.5; } 40% { transform: scale(1); opacity: 1; } }
+
     </style>
 </head>
 <body class="antialiased p-4 lg:p-8">
@@ -245,38 +361,45 @@
             <div class="sun-glow"></div>
             
             <div class="flex flex-col items-center justify-center mb-6">
-                <div class="flex items-end gap-4">
-                    <svg width="40" height="40" viewBox="0 0 100 100" class="transform -rotate-12 opacity-80 hover:opacity-100 transition-opacity">
-                        <path d="M50 85 Q20 50 20 25 Q20 0 50 15 Q80 0 80 25 Q80 50 50 85" fill="#4a8028" stroke="#365e1d" stroke-width="2"/>
-                        <path d="M50 85 Q60 50 50 15" fill="none" stroke="#365e1d" stroke-width="1"/>
-                        <path d="M55 80 Q25 45 25 20 Q25 -5 55 10 Q85 -5 85 20 Q85 45 55 80" fill="#5c9c32" stroke="#365e1d" stroke-width="2" transform="translate(5, -5)"/>
-                        <path d="M55 80 Q65 45 55 10" fill="none" stroke="#365e1d" stroke-width="1" transform="translate(5, -5)"/>
+                <div class="flex items-center gap-6">
+                    <svg width="45" height="45" viewBox="0 0 100 100" class="transform -rotate-12 opacity-80 hover:opacity-100 transition-opacity drop-shadow-lg">
+                        <path d="M50 85 Q20 50 20 25 Q20 0 50 15 Q80 0 80 25 Q80 50 50 85" fill="#15803d" stroke="#365e1d" stroke-width="2"/>
+                        <path d="M50 85 Q60 50 50 15" fill="none" stroke="#166534" stroke-width="2"/>
+                        <path d="M55 80 Q25 45 25 20 Q25 -5 55 10 Q85 -5 85 20 Q85 45 55 80" fill="#22c55e" stroke="#15803d" stroke-width="1" transform="translate(4, -4)" opacity="0.6"/>
                     </svg>
 
-                    <svg width="70" height="90" viewBox="0 0 100 140" class="mb-2 drop-shadow-[0_0_20px_rgba(255,190,41,0.6)]">
-                        <path d="M20 120 Q50 140 80 120 L85 130 H15 Z" fill="#b45309" />
-                        <rect x="45" y="60" width="10" height="60" fill="#d97706" />
-                        <path d="M10 60 Q50 90 90 60 L80 40 Q50 70 20 40 Z" fill="#b45309" />
-                        <ellipse cx="50" cy="45" rx="35" ry="10" fill="#f59e0b" opacity="0.8" />
-                        <path d="M48 45 L48 25 L52 25 L52 45 Z" fill="#3f3f46" />
-                        <path class="pahana-flame" d="M50 25 Q60 15 50 0 Q40 15 50 25" fill="#fbbf24" filter="drop-shadow(0 0 5px #f59e0b)" />
-                    </svg>
+                    <div class="flex flex-col items-center">
+                        <div class="relative">
+                            <svg width="100" height="100" viewBox="0 0 100 100" class="avurudu-sun drop-shadow-[0_0_35px_rgba(251,191,36,0.9)]">
+                                <path d="M50 0 L60 25 L50 15 L40 25 Z" fill="#f59e0b" />
+                                <path d="M50 100 L60 75 L50 85 L40 75 Z" fill="#f59e0b" />
+                                <path d="M0 50 L25 60 L15 50 L25 40 Z" fill="#f59e0b" />
+                                <path d="M100 50 L75 60 L85 50 L75 40 Z" fill="#f59e0b" />
+                                <path d="M15 15 L35 30 L25 25 L30 35 Z" fill="#ea580c" />
+                                <path d="M85 15 L65 30 L75 25 L70 35 Z" fill="#ea580c" />
+                                <path d="M15 85 L35 70 L25 75 L30 65 Z" fill="#ea580c" />
+                                <path d="M85 85 L65 70 L75 75 L70 65 Z" fill="#ea580c" />
+                                <circle cx="50" cy="50" r="22" fill="#fbbf24" stroke="#f59e0b" stroke-width="2"/>
+                            </svg>
+                            <div class="absolute inset-0 bg-amber-400 blur-2xl opacity-30 rounded-full animate-pulse"></div>
+                        </div>
+                        
+                        <h2 class="sinhala-wish text-3xl md:text-4xl mt-4 font-bold text-transparent bg-clip-text bg-gradient-to-r from-amber-300 via-amber-100 to-amber-300 drop-shadow-sm">
+                            සුභ අලුත් අවුරුද්දක් වේවා!
+                        </h2>
+                    </div>
 
-                    <svg width="40" height="40" viewBox="0 0 100 100" class="transform rotate-12 opacity-80 hover:opacity-100 transition-opacity">
-                        <path d="M50 85 Q20 50 20 25 Q20 0 50 15 Q80 0 80 25 Q80 50 50 85" fill="#4a8028" stroke="#365e1d" stroke-width="2"/>
-                        <path d="M50 85 Q60 50 50 15" fill="none" stroke="#365e1d" stroke-width="1"/>
-                        <path d="M55 80 Q25 45 25 20 Q25 -5 55 10 Q85 -5 85 20 Q85 45 55 80" fill="#5c9c32" stroke="#365e1d" stroke-width="2" transform="translate(5, -5)"/>
-                        <path d="M55 80 Q65 45 55 10" fill="none" stroke="#365e1d" stroke-width="1" transform="translate(5, -5)"/>
+                    <svg width="45" height="45" viewBox="0 0 100 100" class="transform rotate-12 opacity-80 hover:opacity-100 transition-opacity drop-shadow-lg">
+                        <path d="M50 85 Q20 50 20 25 Q20 0 50 15 Q80 0 80 25 Q80 50 50 85" fill="#15803d" stroke="#365e1d" stroke-width="2"/>
+                        <path d="M50 85 Q60 50 50 15" fill="none" stroke="#166534" stroke-width="2"/>
+                        <path d="M55 80 Q25 45 25 20 Q25 -5 55 10 Q85 -5 85 20 Q85 45 55 80" fill="#22c55e" stroke="#15803d" stroke-width="1" transform="translate(4, -4)" opacity="0.6"/>
                     </svg>
                 </div>
-
-                <h2 class="ny-text text-5xl md:text-7xl animate-pulse tracking-wide mt-2">Happy New Year 2026!</h2>
-                <div class="w-48 h-1 bg-gradient-to-r from-transparent via-amber-500 to-transparent mt-3 opacity-60"></div>
             </div>
 
             <div class="flex items-center justify-center gap-6 mb-8">
                 <div class="flag-icon hidden md:block opacity-90">
-                    <svg width="40" height="26" viewBox="0 0 600 400">
+                    <svg width="40" height="26" viewBox="0 0 600 400" class="rounded shadow-lg border border-white/10">
                         <rect width="600" height="400" fill="#ffbe29"/>
                         <rect x="20" y="20" width="100" height="360" fill="#ff8c00"/>
                         <rect x="130" y="20" width="100" height="360" fill="#006400"/>
@@ -284,10 +407,10 @@
                     </svg>
                 </div>
                 
-                <div class="sinhala-wish text-3xl md:text-5xl text-amber-400 drop-shadow-md">සුභ අලුත් අවුරුද්දක් වේවා!</div>
-
+                <div class="h-px w-20 bg-gradient-to-r from-transparent via-amber-500/50 to-transparent"></div>
+                
                 <div class="flag-icon hidden md:block opacity-90">
-                    <svg width="40" height="26" viewBox="0 0 600 400">
+                    <svg width="40" height="26" viewBox="0 0 600 400" class="rounded shadow-lg border border-white/10">
                         <rect width="600" height="400" fill="#ffbe29"/>
                         <rect x="20" y="20" width="100" height="360" fill="#ff8c00"/>
                         <rect x="130" y="20" width="100" height="360" fill="#006400"/>
@@ -296,33 +419,12 @@
                 </div>
             </div>
             
-            <div class="inline-flex gap-4 md:gap-8 countdown-container px-10 py-5 rounded-full backdrop-blur-md border-amber-500/40">
-                <div class="flex flex-col items-center">
-                    <span id="days" class="text-2xl md:text-4xl font-black text-white font-mono leading-none">00</span>
-                    <span class="text-[9px] uppercase font-bold text-amber-500/80 tracking-[0.2em] mt-1">Days</span>
-                </div>
-                <div class="w-px bg-white/20 h-10 self-center"></div>
-                <div class="flex flex-col items-center">
-                    <span id="hours" class="text-2xl md:text-4xl font-black text-white font-mono leading-none">00</span>
-                    <span class="text-[9px] uppercase font-bold text-amber-500/80 tracking-[0.2em] mt-1">Hours</span>
-                </div>
-                <div class="w-px bg-white/20 h-10 self-center"></div>
-                <div class="flex flex-col items-center">
-                    <span id="minutes" class="text-2xl md:text-4xl font-black text-white font-mono leading-none">00</span>
-                    <span class="text-[9px] uppercase font-bold text-amber-500/80 tracking-[0.2em] mt-1">Mins</span>
-                </div>
-                <div class="w-px bg-white/20 h-10 self-center"></div>
-                <div class="flex flex-col items-center">
-                    <span id="seconds" class="text-2xl md:text-4xl font-black text-amber-400 font-mono leading-none">00</span>
-                    <span class="text-[9px] uppercase font-bold text-amber-500/80 tracking-[0.2em] mt-1">Secs</span>
-                </div>
-            </div>
         </div>
 
         <header class="flex flex-col lg:flex-row justify-between items-center mb-12 gap-8 px-4 relative z-20">
             <div class="text-center lg:text-left relative group">
-                <div class="absolute -top-8 left-12 text-3xl koha-icon opacity-90 group-hover:opacity-100 transition-opacity filter drop-shadow-lg" title="Avurudu Koha">
-                    🦚 <span class="text-[11px] text-amber-500 font-bold absolute -right-10 top-0 bg-black/50 px-2 py-0.5 rounded-full">Kooo!</span>
+                <div class="absolute -top-10 left-12 text-4xl koha-icon opacity-100 transition-opacity filter drop-shadow-[0_0_10px_rgba(0,0,0,0.8)]" title="Avurudu Koha">
+                    🦚 <span class="sinhala-font text-sm text-amber-400 font-bold absolute -right-16 top-0 bg-black/60 px-3 py-1 rounded-full border border-amber-500/30">කොහා අඬනවා!</span>
                 </div>
                 
                 <h1 class="text-6xl md:text-8xl font-black tracking-tighter text-white leading-none drop-shadow-2xl">
@@ -331,17 +433,17 @@
                     </span>
                 </h1>
                 <div class="flex items-center justify-center lg:justify-start gap-4 mt-5">
-                    <div class="flex gap-1.5 shadow-lg">
+                    <div class="flex gap-1.5 shadow-lg border border-white/10 p-1 rounded bg-black/30 backdrop-blur">
                         <div class="w-5 h-5 bg-[#800000] rounded-sm"></div>
                         <div class="w-5 h-5 bg-[#ffbe29] rounded-sm"></div>
                         <div class="w-5 h-5 bg-[#006400] rounded-sm"></div>
                         <div class="w-5 h-5 bg-[#ff8c00] rounded-sm"></div>
                     </div>
-                    <p class="text-[12px] font-bold text-slate-400 tracking-[0.4em] uppercase">2026 Sri Lankan Spirit Edition</p>
+                    <p class="text-[12px] font-bold text-amber-500/80 tracking-[0.4em] uppercase shadow-black drop-shadow-md">2026 Sri Lankan Spirit Edition</p>
                 </div>
             </div>
 
-            <div class="flex items-center gap-2 bg-black/60 p-3 rounded-2xl border border-white/10 backdrop-blur-xl shadow-2xl">
+            <div class="flex items-center gap-2 bg-black/60 p-3 rounded-2xl border border-amber-500/20 backdrop-blur-xl shadow-2xl">
                 <div class="px-5 py-2 text-center">
                     <span class="block text-[9px] text-slate-400 uppercase font-bold mb-1">London</span>
                     <span id="clock-london" class="text-sm font-mono font-bold text-white tracking-widest">--:--:--</span>
@@ -350,7 +452,7 @@
                     <span class="block text-[9px] text-slate-400 uppercase font-bold mb-1">New York</span>
                     <span id="clock-newyork" class="text-sm font-mono font-bold text-white tracking-widest">--:--:--</span>
                 </div>
-                <div class="px-5 py-2 text-center border-l border-white/10 bg-amber-500/20 rounded-xl border border-amber-500/20">
+                <div class="px-5 py-2 text-center border-l border-white/10 bg-amber-500/20 rounded-xl border border-amber-500/30 shadow-[inset_0_0_15px_rgba(251,191,36,0.1)]">
                     <span class="block text-[9px] text-amber-400 uppercase font-bold mb-1">Colombo</span>
                     <span id="clock-colombo" class="text-sm font-mono font-bold text-amber-300 tracking-widest">--:--:--</span>
                 </div>
@@ -361,7 +463,7 @@
             <aside class="lg:col-span-3 space-y-6">
                 <div class="litha-card p-8 rounded-[2rem] relative overflow-hidden shadow-2xl">
                     <div class="lion-bg"><i class="fa-solid fa-shield-cat"></i></div>
-                    <h4 class="text-[12px] font-black text-amber-600 uppercase tracking-widest mb-6 flex items-center gap-2">
+                    <h4 class="text-[13px] font-black text-amber-600 uppercase tracking-widest mb-6 flex items-center gap-2">
                         <i class="fa-solid fa-scroll"></i> Trading Litha
                     </h4>
                     <div class="space-y-6 relative z-10">
@@ -398,7 +500,7 @@
                     </button>
                 </div>
 
-                <div id="main-content-panel" class="bg-[#0c0e12] rounded-[3rem] border border-white/10 shadow-2xl overflow-hidden relative">
+                <div id="main-content-panel" class="bg-[#0f0505] rounded-[3rem] border border-white/10 shadow-2xl overflow-hidden relative">
                     <div id="progress-container" class="h-2 w-full bg-white/5">
                         <div id="progress-bar" class="h-full bg-gradient-to-right from-amber-700 via-amber-500 to-yellow-400 transition-all duration-700 ease-out shadow-[0_0_15px_rgba(255,190,41,0.5)]" style="width: 0%"></div>
                     </div>
@@ -442,54 +544,58 @@
                         </div>
 
                         <div id="ai-view" class="hidden">
-                            <div class="flex items-center justify-between mb-8">
-                                <div>
-                                    <h2 class="text-4xl font-black text-white uppercase tracking-tight mb-2">Avurudu Assistant</h2>
-                                    <p class="text-sm text-slate-500">Ask about Trading, Psychology or 2026 Goals. Upload chart images! 📷</p>
+                            <div class="flex items-center justify-between mb-6 pb-6 border-b border-white/5">
+                                <div class="flex items-center gap-4">
+                                    <div class="w-12 h-12 rounded-full bg-gradient-to-br from-amber-500 to-orange-600 flex items-center justify-center text-xl shadow-[0_0_15px_rgba(255,190,41,0.4)] relative overflow-hidden group">
+                                        <div class="absolute inset-0 bg-white/20 blur-xl group-hover:bg-white/30 transition-all"></div>
+                                        <span class="relative z-10">🦁</span>
+                                    </div>
+                                    <div>
+                                        <h2 class="text-2xl font-black text-white uppercase tracking-tight drop-shadow-md">GET AND PROFIT AI</h2>
+                                        <p class="text-[11px] font-bold text-amber-500/80 uppercase tracking-widest">Master Analyst • 2026 Edition</p>
+                                    </div>
                                 </div>
-                                <div class="flex gap-2 items-center bg-green-500/10 px-3 py-1 rounded-full border border-green-500/20">
-                                    <div class="w-2 h-2 rounded-full bg-green-500 animate-pulse"></div>
-                                    <span class="text-[10px] font-bold text-green-500 uppercase tracking-widest">Online</span>
+                                <div class="flex gap-2 items-center bg-green-500/10 px-4 py-1.5 rounded-full border border-green-500/20 backdrop-blur-sm">
+                                    <div class="w-2 h-2 rounded-full bg-green-500 animate-pulse box-shadow-[0_0_10px_#22c55e]"></div>
+                                    <span class="text-[10px] font-bold text-green-500 uppercase tracking-widest">System Online</span>
                                 </div>
                             </div>
 
                             <div class="chat-container">
-                                <div id="messages-area" class="messages-area space-y-4 mb-6 pr-2">
-                                    <div class="ai-bubble p-5 max-w-[85%]">
-                                        <p class="text-sm text-slate-300 leading-relaxed">
-                                            <span class="text-amber-400 font-bold block mb-1">Ayubowan! 🙏</span>
-                                            Subha Aluth Avuruddak Wewa! 2026 trading plans gana mawa onama deyak ahanna. Chart images upload karala analysis ekak ganna puluwan. Mama kohomada help karanna oni?
-                                        </p>
+                                <div id="messages-area" class="messages-area">
+                                    </div>
+                                
+                                <div id="ai-loading" class="hidden px-6 pb-2">
+                                    <div class="typing-indicator">
+                                        <div class="typing-dot"></div>
+                                        <div class="typing-dot"></div>
+                                        <div class="typing-dot"></div>
                                     </div>
                                 </div>
-                                
-                                <div id="ai-loading" class="hidden flex items-center gap-2 mb-4 px-4">
-                                    <div class="typing-dot"></div>
-                                    <div class="typing-dot" style="animation-delay: 0.2s"></div>
-                                    <div class="typing-dot" style="animation-delay: 0.4s"></div>
-                                </div>
 
-                                <div id="image-preview" class="hidden mb-4 relative">
-                                    <div class="bg-white/5 border border-amber-500/30 rounded-2xl p-3 flex items-center gap-3">
-                                        <img id="preview-img" class="w-20 h-20 rounded-lg object-cover border border-white/10">
+                                <div id="image-preview" class="hidden px-5 mb-2">
+                                    <div class="bg-white/5 border border-amber-500/30 rounded-2xl p-3 flex items-center gap-3 animate-pulse">
+                                        <img id="preview-img" class="w-16 h-16 rounded-lg object-cover border border-white/10">
                                         <div class="flex-1">
-                                            <p class="text-xs text-amber-400 font-bold">Chart Image Uploaded</p>
-                                            <p class="text-[10px] text-slate-500">Ready for analysis</p>
+                                            <p class="text-xs text-amber-400 font-bold">Image Ready</p>
+                                            <p class="text-[10px] text-slate-500">Processing upload...</p>
                                         </div>
-                                        <button onclick="clearImage()" class="w-8 h-8 rounded-lg bg-rose-500/20 hover:bg-rose-500 text-rose-400 hover:text-white transition-all flex items-center justify-center">
+                                        <button onclick="clearImage()" class="w-8 h-8 rounded-full bg-rose-500/20 hover:bg-rose-500 text-rose-400 hover:text-white transition-all flex items-center justify-center">
                                             <i class="fa-solid fa-times text-xs"></i>
                                         </button>
                                     </div>
                                 </div>
 
-                                <div class="relative">
-                                    <input type="text" id="ai-input" placeholder="Oyata dana prashnaya methana type karanna..." class="w-full bg-white/5 border border-white/10 rounded-2xl py-5 px-6 text-sm text-white focus:outline-none focus:border-amber-500/50 transition-all pr-28 shadow-inner">
+                                <div class="input-area">
                                     <input type="file" id="image-input" accept="image/*" class="hidden" onchange="handleImageUpload(event)">
-                                    <button onclick="document.getElementById('image-input').click()" class="absolute right-16 top-1/2 -translate-y-1/2 w-10 h-10 rounded-xl bg-white/5 border border-white/10 text-slate-400 hover:text-amber-400 hover:border-amber-500/30 flex items-center justify-center transition-all">
-                                        <i class="fa-solid fa-image text-xs"></i>
+                                    <button onclick="document.getElementById('image-input').click()" class="action-btn upload-btn" title="Upload Image">
+                                        <i class="fa-solid fa-image"></i>
                                     </button>
-                                    <button onclick="askAI()" class="absolute right-3 top-1/2 -translate-y-1/2 w-10 h-10 rounded-xl bg-amber-500 text-black flex items-center justify-center hover:bg-amber-400 transition-all shadow-[0_0_15px_rgba(255,190,41,0.4)]">
-                                        <i class="fa-solid fa-paper-plane text-xs"></i>
+                                    
+                                    <input type="text" id="ai-input" placeholder="Ask anything... (Trading, Code, Life)" class="input-field">
+                                    
+                                    <button onclick="askAI()" class="action-btn send-btn">
+                                        <i class="fa-solid fa-paper-plane text-sm"></i>
                                     </button>
                                 </div>
                             </div>
@@ -511,42 +617,41 @@
         let activeTab = 'hsTab';
         let checkedItems = {};
         
-        const apiKey = "AIzaSyDBpMMY_RfCqga1phv73DJyr-RRu-i-aL4"; 
+        // Updated API Key for OpenRouter
+        const apiKey = "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"; 
+        
         const systemPrompt = `
-You are 'Get and Profit Master Assistant', a top-tier Forex Technical Analysis Mentor for the 2026 Sri Lankan market.
-Your Language: Mix of English and Sinhala (Singlish).
-Your Goal: Provide Master-Level analysis of any chart image.
+You are 'GET AND PROFIT AI', the ultimate expert assistant.
+Language: Mix of English and Sinhala (Singlish).
+Style: Friendly, Professional, Mentor-like.
 
-YOUR 3 CORE SETUPS (The "Golden Rules"):
-1. "H&S Divergence": Divergence + Head & Shoulders Pattern + Neckline Break.
-2. "Normal Divergence": Divergence + AOI Break & Retest + Structure Validation (SOS).
-3. "Main Setup": Strong Trend + NO Divergence + Major AOI Break/Retest + 3 Candle Rule.
+CRITICAL INSTRUCTION FOR CLARITY:
+1. **VISUAL STRUCTURE:** You MUST use Bullet Points, Numbered Lists, and Bold Text for every complex answer. Never write huge blocks of text.
+2. **FORMATTING:** - Use **Bold** for important terms.
+   - Use lists for steps.
+   - Use > for quotes or highlights.
 
-ANALYSIS PROTOCOL (Follow this order):
+CAPABILITIES:
+1. **GENERAL:** Answer any question (Code, Life, Science). Explain it simply step-by-step.
+2. **TRADING (GOLDEN RULES):**
+   - **H&S Divergence:** Div + H&S + Neckline Break.
+   - **Normal Divergence:** Div + AOI Break/Retest + SOS.
+   - **Main Setup:** Trend + No Div + AOI Break/Retest + 3 Candle Rule.
 
-PHASE 1: GENERAL TECHNICAL DEEP DIVE (Simple Explanation)
-- First, look at the chart like a pro. Identify the Trend (Uptrend/Downtrend/Ranging).
-- Spot Key Levels (Support, Resistance, Order Blocks/AOI).
-- Read the Candles (Wicks, Momentum, Rejection).
-- Explain simply what the price is doing right now using standard Price Action concepts.
+ANALYSIS FORMAT (If Chart):
+**🔍 Market Context:** [Simple 1-line summary]
 
-PHASE 2: SETUP MATCHING (Flexible Logic)
-- Check if the chart looks like one of the 3 setups.
-- It DOES NOT need to be 100% perfect. If it looks "similar" or represents the *idea* of the setup, identify it.
-- If it's a H&S Divergence, Normal Divergence, or Main Setup, say so clearly.
+**📊 Setup Identification:**
+- Check 1: [Result]
+- Check 2: [Result]
+- **Verdict:** [Setup Name or No Setup]
 
-PHASE 3: EXECUTION PLAN (How to Trade)
-- If a setup is found (or forming), tell the user exactly how to enter according to the setup rules.
-  - Example: "Candle eka close wenakan inna", "Neckline retest ekedi enter wenna", "Stop Loss eka swing high ekata udin thiyanna".
-- If NO setup fits, explain why firmly (e.g., "Market choppy", "No clear direction").
+**🎯 Execution Plan:**
+1. **Entry:** [Where to enter]
+2. **SL:** [Where to put Stop Loss]
+3. **TP:** [Target]
 
-FORMAT YOUR RESPONSE:
-**Market Context:** [Simple explanation of Trend, Levels, and Price Action]
-**Setup Verdict:** [Which of the 3 setups is this? Or No Valid Setup?]
-**Confidence:** [High/Medium/Low]
-**Master's Advice (Sinhala/English):** [Actionable advice. Explain the logic clearly. Use Singlish for a friendly mentor vibe.]
-
-Always wish 'Subha Aluth Avuruddak Wewa' in the first message. Be the expert mentor.
+**💡 Mentor Advice:** [Friendly Singlish advice]
 `;
         
         let selectedImageBase64 = null;
@@ -574,60 +679,83 @@ Always wish 'Subha Aluth Avuruddak Wewa' in the first message. Be the expert men
             const text = input.value.trim();
             if (!text && !selectedImageBase64) return;
 
-            const userMessage = text || "Analyze the uploaded chart.";
+            const userMessage = text || "Check this out.";
             addMessage(userMessage, 'user');
             
             if (selectedImageBase64) {
                 const imgMsg = document.createElement('div');
-                imgMsg.className = 'user-bubble ml-auto p-3 max-w-[80%]';
-                imgMsg.innerHTML = `<img src="data:image/png;base64,${selectedImageBase64}" class="rounded-lg max-w-full border border-white/20">`;
+                imgMsg.className = 'message-row user';
+                imgMsg.innerHTML = `
+                    <div class="avatar user-avatar"><i class="fa-solid fa-user"></i></div>
+                    <div class="bubble user-bubble p-2">
+                        <img src="data:image/png;base64,${selectedImageBase64}" class="rounded-lg max-w-[200px] border border-white/20">
+                    </div>`;
                 document.getElementById('messages-area').appendChild(imgMsg);
             }
 
             input.value = '';
             document.getElementById('ai-loading').classList.remove('hidden');
+            document.getElementById('messages-area').scrollTop = document.getElementById('messages-area').scrollHeight;
 
             try {
-                const modelName = "gemini-2.5-flash-preview-09-2025";
-                const url = `https://generativelanguage.googleapis.com/v1beta/models/${modelName}:generateContent?key=${apiKey}`;
+                const modelName = "google/gemini-2.0-flash-exp:free";
+                const url = "https://openrouter.ai/api/v1/chat/completions";
                 
-                let parts = [];
-                if (text) parts.push({ text: text });
+                const messages = [{ role: "system", content: systemPrompt }];
+                
+                const userContent = [];
+                if (text) userContent.push({ type: "text", text: text });
+                
                 if (selectedImageBase64) {
-                    parts.push({ inlineData: { mimeType: "image/png", data: selectedImageBase64 } });
-                    if (!text) parts.unshift({ text: "Please analyze this trading chart image based on our specific strategies." });
+                    if (!text) userContent.push({ type: "text", text: "Please analyze this image strictly using the defined trading protocol." });
+                    userContent.push({
+                        type: "image_url",
+                        image_url: {
+                            url: `data:image/png;base64,${selectedImageBase64}`
+                        }
+                    });
                 }
+                
+                messages.push({ role: "user", content: userContent });
 
                 const payload = {
-                    contents: [{ role: "user", parts: parts }],
-                    systemInstruction: { parts: [{ text: systemPrompt }] }
+                    model: modelName,
+                    messages: messages
                 };
 
-                const response = await fetchWithRetry(url, payload);
+                const headers = {
+                    'Content-Type': 'application/json',
+                    'Authorization': `Bearer ${apiKey}`,
+                    'HTTP-Referer': window.location.href,
+                    'X-Title': 'Get and Profit AI'
+                };
+
+                const response = await fetchWithRetry(url, payload, headers);
                 const result = await response.json();
                 
-                const aiResponse = result.candidates?.[0]?.content?.parts?.[0]?.text || "Poddak inna, system eke podi issue ekak thiyanawa. Karunakaara ayeth try karanna.";
+                const aiResponse = result.choices?.[0]?.message?.content || "Mata samawenna, mata podi prashnayak awa. Ayeth try karamu da?";
                 
                 addMessage(aiResponse, 'ai');
                 clearImage();
             } catch (error) {
                 console.error('AI Error:', error);
-                addMessage(`Server eka ekka connect wenna baha. Karunakaara internet connection eka check karala ayeth balanna.`, 'ai');
+                addMessage(`Server connection issue ekak. API Key eka hariyata check karanna.`, 'ai');
             }
 
             document.getElementById('ai-loading').classList.add('hidden');
         }
 
-        async function fetchWithRetry(url, payload, retries = 5) {
+        async function fetchWithRetry(url, payload, headers, retries = 5) {
             let delay = 1000;
             for (let i = 0; i < retries; i++) {
                 try {
                     const response = await fetch(url, {
                         method: 'POST',
-                        headers: { 'Content-Type': 'application/json' },
+                        headers: headers || { 'Content-Type': 'application/json' },
                         body: JSON.stringify(payload)
                     });
                     if (response.ok) return response;
+                    console.error(`Attempt ${i+1} failed: ${response.status}`);
                 } catch (e) {
                     if (i === retries - 1) throw e;
                 }
@@ -637,12 +765,29 @@ Always wish 'Subha Aluth Avuruddak Wewa' in the first message. Be the expert men
             throw new Error('Connection failed');
         }
 
+        function formatText(text) {
+            return text.replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>');
+        }
+
         function addMessage(text, role) {
             const area = document.getElementById('messages-area');
             const div = document.createElement('div');
-            div.className = `${role === 'ai' ? 'ai-bubble' : 'user-bubble ml-auto'} p-4 max-w-[80%] animate-in fade-in slide-in-from-bottom-2 mb-2`;
-            // Updated line below to support line breaks and basic formatting
-            div.innerHTML = `<p class="text-sm ${role === 'ai' ? 'text-slate-300' : 'text-white'} leading-relaxed whitespace-pre-wrap">${text}</p>`;
+            div.className = `message-row ${role}`;
+            
+            const avatarHTML = role === 'ai' 
+                ? `<div class="avatar ai-avatar"><i class="fa-solid fa-robot"></i></div>` 
+                : `<div class="avatar user-avatar"><i class="fa-solid fa-user"></i></div>`;
+            
+            const bubbleClass = role === 'ai' ? 'ai-bubble' : 'user-bubble';
+            
+            div.innerHTML = `
+                ${role === 'ai' ? avatarHTML : ''}
+                <div class="bubble ${bubbleClass}">
+                    ${formatText(text)}
+                </div>
+                ${role === 'user' ? avatarHTML : ''}
+            `;
+            
             area.appendChild(div);
             area.scrollTop = area.scrollHeight;
         }
@@ -675,6 +820,11 @@ Always wish 'Subha Aluth Avuruddak Wewa' in the first message. Be the expert men
                 checklistView.classList.add('hidden');
                 aiView.classList.remove('hidden');
                 progressContainer.classList.add('invisible');
+                
+                const area = document.getElementById('messages-area');
+                if (area.children.length === 0) {
+                    addMessage("Ayubowan! 🙏\n\n**Suba Aluth Avuruddak Wewa!** ☀️\n\nMama oyaage **GET AND PROFIT AI**. Mata puluwan:\n\n• **Trading Analysis** (H&S, Divergence)\n• **Coding Support**\n• **General Knowledge**\n\nMokakda ada karanna oni?", 'ai');
+                }
             } else {
                 checklistView.classList.remove('hidden');
                 aiView.classList.add('hidden');
@@ -697,13 +847,13 @@ Always wish 'Subha Aluth Avuruddak Wewa' in the first message. Be the expert men
 
                 if (prog === 100) {
                     btn.disabled = false;
-                    btn.className = "w-full mt-12 py-10 rounded-[2.5rem] font-black text-[16px] tracking-[1em] uppercase transition-all duration-500 ready-active cursor-pointer shadow-[0_0_30px_rgba(255,190,41,0.4)] hover:scale-[1.01]";
-                    btn.style.background = "linear-gradient(135deg, #ffbe29, #d97706)";
+                    btn.className = "w-full mt-12 py-10 rounded-[2.5rem] font-black text-[16px] tracking-[1em] uppercase transition-all duration-500 ready-active cursor-pointer shadow-[0_0_30px_rgba(251,191,36,0.4)] hover:scale-[1.01]";
+                    btn.style.background = "linear-gradient(135deg, #fbbf24, #d97706)";
                     btn.style.color = "#2a0a0a";
                     btn.innerHTML = `Execute Protocol <i class="fa-solid fa-fire text-amber-900 ml-2"></i>`;
                     vBox.className = "mt-10 p-8 rounded-3xl border border-amber-500/40 bg-amber-500/10";
                     vTxt.innerHTML = `<span class="text-amber-400 font-bold not-italic">Jaya Wewa!</span> Aswannu nelaaganna kaalaya hari. Market conditions perfect.`;
-                    vTxt.style.color = "#ffbe29";
+                    vTxt.style.color = "#fbbf24";
                 } else {
                     btn.disabled = true;
                     btn.className = "w-full mt-12 py-10 rounded-[2.5rem] font-black text-[16px] tracking-[1em] uppercase transition-all duration-500 bg-white/5 text-slate-700 border border-white/10 cursor-not-allowed";
@@ -721,7 +871,7 @@ Always wish 'Subha Aluth Avuruddak Wewa' in the first message. Be the expert men
             return `
                 <div onclick="toggleItem('${tab}', ${idx})" class="check-card flex items-center justify-between p-5 rounded-2xl border border-white/5 bg-white/[0.01] cursor-pointer hover:border-amber-500/30 transition-all group ${checked ? 'checked' : ''}">
                     <div class="flex items-center gap-5">
-                        <div class="w-6 h-6 rounded-md border-2 transition-all flex items-center justify-center ${checked ? 'bg-amber-500 border-amber-500 scale-110 shadow-[0_0_10px_rgba(255,190,41,0.5)]' : 'border-white/10 group-hover:border-amber-500/50'}">
+                        <div class="w-6 h-6 rounded-md border-2 transition-all flex items-center justify-center ${checked ? 'bg-amber-500 border-amber-500 scale-110 shadow-[0_0_10px_rgba(251,191,36,0.5)]' : 'border-white/10 group-hover:border-amber-500/50'}">
                             ${checked ? '<i class="fa-solid fa-check text-[12px] text-black font-black"></i>' : ''}
                         </div>
                         <span class="text-[15px] font-bold tracking-tight ${checked ? 'text-white' : 'text-slate-400 group-hover:text-slate-300'}">${label}</span>
@@ -745,12 +895,12 @@ Always wish 'Subha Aluth Avuruddak Wewa' in the first message. Be the expert men
         }
         function createFirework() {
             const x = Math.random() * canvas.width; const y = Math.random() * canvas.height * 0.4;
-            const colors = ['#ffbe29', '#800000', '#006400', '#ff8c00', '#ffffff'];
+            const colors = ['#fbbf24', '#8a1c1c', '#15803d', '#ea580c', '#ffffff'];
             const color = colors[Math.floor(Math.random() * colors.length)];
             for (let i = 0; i < 40; i++) particles.push(new Particle(x, y, color));
         }
         function animateFireworks() {
-            ctx.fillStyle = 'rgba(8, 9, 11, 0.15)'; ctx.fillRect(0, 0, canvas.width, canvas.height);
+            ctx.fillStyle = 'rgba(15, 5, 5, 0.2)'; ctx.fillRect(0, 0, canvas.width, canvas.height);
             particles.forEach((p, i) => { if (p.alpha > 0) { p.update(); p.draw(); } else particles.splice(i, 1); });
             if (Math.random() < 0.04) createFirework();
             requestAnimationFrame(animateFireworks);
@@ -765,17 +915,6 @@ Always wish 'Subha Aluth Avuruddak Wewa' in the first message. Be the expert men
             flower.style.fontSize = Math.random() * 20 + 10 + 'px';
             container.appendChild(flower);
             setTimeout(() => flower.remove(), 10000);
-        }
-
-        function updateCountdown() {
-            const now = new Date().getTime();
-            const target = new Date("Jan 1, 2026 00:00:00").getTime();
-            const gap = target - now; if (gap < 0) return;
-            const second = 1000, minute = second * 60, hour = minute * 60, day = hour * 24;
-            document.getElementById('days').innerText = String(Math.floor(gap / day)).padStart(2, '0');
-            document.getElementById('hours').innerText = String(Math.floor((gap % day) / hour)).padStart(2, '0');
-            document.getElementById('minutes').innerText = String(Math.floor((gap % hour) / minute)).padStart(2, '0');
-            document.getElementById('seconds').innerText = String(Math.floor((gap % minute) / second)).padStart(2, '0');
         }
 
         function updateClocks() {
@@ -800,8 +939,8 @@ Always wish 'Subha Aluth Avuruddak Wewa' in the first message. Be the expert men
         document.getElementById('ai-input').addEventListener('keypress', (e) => { if (e.key === 'Enter') askAI(); });
 
         window.onload = () => {
-            resizeCanvas(); animateFireworks(); updateClocks(); updateSessions(); updateCountdown(); render();
-            setInterval(updateClocks, 1000); setInterval(updateCountdown, 1000); setInterval(updateSessions, 30000);
+            resizeCanvas(); animateFireworks(); updateClocks(); updateSessions(); render();
+            setInterval(updateClocks, 1000); setInterval(updateSessions, 30000);
             setInterval(createErabadu, 2000);
             window.addEventListener('resize', resizeCanvas);
         }
