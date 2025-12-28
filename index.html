@@ -3,21 +3,36 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>GET AND PROFIT | Professional Trading Terminal 2026</title>
+    <title>GET AND PROFIT | New Year Edition 2026</title>
     <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <!-- Import TradingView Library -->
+    <script type="text/javascript" src="https://s3.tradingview.com/tv.js"></script>
+    <!-- Canvas Confetti for Wins -->
+    <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <style>
-        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&family=JetBrains+Mono:wght@400;500;600;700&display=swap');
+        @import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500;700&display=swap');
         
         :root {
-            --primary-gold: #d4af37;
-            --primary-dark: #0a0e14;
-            --secondary-dark: #151922;
-            --accent-green: #00ff88;
-            --accent-red: #ff3366;
-            --text-primary: #e8eaed;
+            /* Ultra Premium Dark Theme */
+            --bg-app: #030712;       /* Deepest Black-Blue */
+            --bg-glass: rgba(17, 24, 39, 0.7); /* Smooth Glass */
+            --bg-input: rgba(255, 255, 255, 0.03);
+            
+            --primary-gold: #fbbf24; 
+            --gold-glow: rgba(251, 191, 36, 0.5);
+            --gradient-gold: linear-gradient(135deg, #f59e0b 0%, #fbbf24 100%);
+            
+            --text-primary: #ffffff;
             --text-secondary: #9ca3af;
-            --border-subtle: rgba(255, 255, 255, 0.06);
+            
+            --accent-green: #34d399; /* Bright Emerald */
+            --accent-red: #f87171;   /* Soft Red */
+            --accent-blue: #3b82f6;
+            
+            --border-subtle: rgba(255, 255, 255, 0.08);
+            --shadow-glass: 0 8px 32px 0 rgba(0, 0, 0, 0.37);
         }
 
         * {
@@ -27,197 +42,302 @@
         }
 
         body {
-            font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
-            background: var(--primary-dark);
+            font-family: 'Plus Jakarta Sans', sans-serif;
+            background-color: var(--bg-app);
             color: var(--text-primary);
             overflow-x: hidden;
             line-height: 1.6;
-        }
-
-        /* Premium Background Grid */
-        .grid-bg {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
+            min-height: 100vh;
             background-image: 
-                linear-gradient(rgba(212, 175, 55, 0.03) 1px, transparent 1px),
-                linear-gradient(90deg, rgba(212, 175, 55, 0.03) 1px, transparent 1px);
-            background-size: 50px 50px;
-            pointer-events: none;
-            z-index: 0;
+                radial-gradient(circle at 15% 50%, rgba(251, 191, 36, 0.08), transparent 25%),
+                radial-gradient(circle at 85% 30%, rgba(52, 211, 153, 0.05), transparent 25%);
         }
 
-        /* Ambient Glow Effects */
-        .ambient-glow {
-            position: fixed;
-            width: 600px;
-            height: 600px;
-            border-radius: 50%;
-            filter: blur(120px);
-            opacity: 0.15;
-            pointer-events: none;
-            z-index: 1;
+        /* --- ANIMATIONS START --- */
+        
+        /* 1. Fade In Up - For Cards entering */
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
         }
 
-        .glow-1 {
-            top: -200px;
-            left: -200px;
-            background: radial-gradient(circle, var(--primary-gold), transparent);
-            animation: pulse 8s ease-in-out infinite;
+        /* 2. Pulse Glow - For Live Indicators */
+        @keyframes pulseGlowGreen {
+            0% { box-shadow: 0 0 0 0 rgba(52, 211, 153, 0.4); }
+            70% { box-shadow: 0 0 0 6px rgba(52, 211, 153, 0); }
+            100% { box-shadow: 0 0 0 0 rgba(52, 211, 153, 0); }
         }
 
-        .glow-2 {
-            bottom: -200px;
-            right: -200px;
-            background: radial-gradient(circle, var(--accent-green), transparent);
-            animation: pulse 10s ease-in-out infinite reverse;
+        @keyframes pulseGlowGold {
+            0% { box-shadow: 0 0 0 0 rgba(251, 191, 36, 0.4); }
+            70% { box-shadow: 0 0 0 10px rgba(251, 191, 36, 0); }
+            100% { box-shadow: 0 0 0 0 rgba(251, 191, 36, 0); }
         }
 
-        @keyframes pulse {
-            0%, 100% { opacity: 0.1; transform: scale(1); }
-            50% { opacity: 0.2; transform: scale(1.1); }
+        /* 3. Subtle Float - For Important Widgets */
+        @keyframes floatSubtle {
+            0% { transform: translateY(0px); }
+            50% { transform: translateY(-4px); }
+            100% { transform: translateY(0px); }
         }
 
-        /* Glass Morphism Cards */
+        /* 4. Shimmer - For Premium Cards on Hover */
+        @keyframes shimmerEffect {
+            0% { background-position: -200% 0; }
+            100% { background-position: 200% 0; }
+        }
+
+        /* 5. Chart Line Draw (Simulated fade in) */
+        @keyframes growWidth {
+            from { width: 0; }
+            to { width: 100%; }
+        }
+
+        /* 6. Moving Grid Background - Forex Style */
+        @keyframes gridMove {
+            0% { background-position: 0 0; }
+            100% { background-position: 40px 40px; }
+        }
+
+        /* --- ANIMATIONS END --- */
+
+        /* Modern Glass Card */
         .glass-card {
-            background: rgba(21, 25, 34, 0.6);
+            background: var(--bg-glass);
             backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
             border: 1px solid var(--border-subtle);
-            border-radius: 24px;
-            transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+            border-radius: 20px;
+            box-shadow: var(--shadow-glass);
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            
+            /* Animation Hook */
+            animation: fadeInUp 0.8s cubic-bezier(0.2, 0.8, 0.2, 1) backwards;
         }
 
         .glass-card:hover {
-            border-color: rgba(212, 175, 55, 0.3);
-            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
-            transform: translateY(-2px);
+            border-color: rgba(251, 191, 36, 0.3);
+            transform: translateY(-4px);
+            box-shadow: 0 12px 40px rgba(0, 0, 0, 0.4);
         }
 
-        /* Premium Header */
+        /* Header Styling */
         .premium-header {
-            background: linear-gradient(180deg, rgba(10, 14, 20, 0.95), rgba(10, 14, 20, 0.7));
-            backdrop-filter: blur(20px);
+            background: rgba(3, 7, 18, 0.8);
+            backdrop-filter: blur(16px);
             border-bottom: 1px solid var(--border-subtle);
             position: sticky;
             top: 0;
             z-index: 100;
+            padding: 16px 0;
+            animation: fadeInUp 0.5s ease-out backwards;
         }
 
-        /* Logo Animation */
+        /* Logo Area - Clean White Pill */
         .logo-container {
-            position: relative;
-            display: inline-flex;
-            align-items: center;
-            gap: 16px;
-        }
-
-        .logo-icon {
-            width: 48px;
-            height: 48px;
-            background: linear-gradient(135deg, var(--primary-gold), #ffed4e);
-            border-radius: 12px;
             display: flex;
             align-items: center;
             justify-content: center;
-            font-size: 24px;
-            box-shadow: 0 8px 24px rgba(212, 175, 55, 0.3);
-            position: relative;
-            overflow: hidden;
+            background: #ffffff;
+            padding: 10px 24px;
+            border-radius: 100px;
+            box-shadow: 0 0 20px var(--gold-glow);
+            border: 2px solid var(--primary-gold);
+            transition: transform 0.3s ease;
+            animation: pulseGlowGold 3s infinite;
+        }
+        .logo-container:hover { transform: scale(1.02); }
+
+        .custom-logo {
+            height: 48px;
+            width: auto;
+            object-fit: contain;
+            display: block;
         }
 
-        .logo-icon::before {
-            content: '';
-            position: absolute;
-            top: -50%;
-            left: -50%;
-            width: 200%;
-            height: 200%;
-            background: linear-gradient(45deg, transparent, rgba(255, 255, 255, 0.3), transparent);
-            transform: rotate(45deg);
-            animation: shine 3s infinite;
+        /* Clock Widget */
+        .clock-widget {
+            display: flex;
+            background: rgba(0,0,0,0.3);
+            border-radius: 14px;
+            padding: 6px;
+            gap: 4px;
+            border: 1px solid var(--border-subtle);
         }
 
-        @keyframes shine {
-            0% { transform: translateX(-100%) translateY(-100%) rotate(45deg); }
-            100% { transform: translateX(100%) translateY(100%) rotate(45deg); }
+        .clock-item {
+            padding: 8px 20px;
+            text-align: center;
+            border-radius: 10px;
+            transition: background 0.3s;
+        }
+        
+        .clock-item.active {
+            background: rgba(251, 191, 36, 0.1);
+            border: 1px solid rgba(251, 191, 36, 0.2);
         }
 
-        .logo-text {
-            font-size: 28px;
-            font-weight: 900;
-            letter-spacing: -1px;
-            background: linear-gradient(135deg, #ffffff, var(--primary-gold));
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            text-shadow: 0 2px 10px rgba(212, 175, 55, 0.3);
+        .clock-label {
+            font-size: 10px;
+            font-weight: 800;
+            text-transform: uppercase;
+            color: var(--text-secondary);
+            letter-spacing: 1px;
         }
 
-        /* Status Indicator */
+        .clock-time {
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 13px;
+            font-weight: 700;
+            color: var(--text-primary);
+        }
+
+        /* Status Badge */
         .status-live {
-            display: inline-flex;
+            display: flex;
             align-items: center;
             gap: 8px;
             padding: 8px 16px;
-            background: rgba(0, 255, 136, 0.1);
-            border: 1px solid rgba(0, 255, 136, 0.3);
-            border-radius: 12px;
-            font-size: 12px;
-            font-weight: 700;
+            background: rgba(52, 211, 153, 0.1);
+            border: 1px solid rgba(52, 211, 153, 0.3);
+            border-radius: 100px;
+            color: var(--accent-green);
+            font-size: 11px;
+            font-weight: 800;
             text-transform: uppercase;
-            letter-spacing: 1px;
+            letter-spacing: 0.5px;
         }
 
         .status-dot {
             width: 8px;
             height: 8px;
-            background: var(--accent-green);
+            background-color: var(--accent-green);
             border-radius: 50%;
-            animation: blink 2s infinite;
-            box-shadow: 0 0 10px var(--accent-green);
+            /* Enhanced Animation */
+            box-shadow: 0 0 0 0 rgba(52, 211, 153, 0.7);
+            animation: pulseGlowGreen 2s infinite;
         }
 
-        @keyframes blink {
-            0%, 100% { opacity: 1; }
-            50% { opacity: 0.3; }
-        }
-
-        /* Tab System */
-        .tab-container {
-            display: flex;
-            gap: 8px;
-            padding: 6px;
-            background: rgba(0, 0, 0, 0.3);
-            border-radius: 16px;
-            border: 1px solid var(--border-subtle);
-        }
-
-        .tab-btn {
-            padding: 12px 24px;
+        /* Icon Buttons */
+        .icon-btn {
+            width: 42px;
+            height: 42px;
             border-radius: 12px;
-            font-size: 13px;
-            font-weight: 700;
+            border: 1px solid var(--border-subtle);
+            background: rgba(255,255,255,0.03);
+            color: var(--text-secondary);
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: all 0.2s;
+        }
+        .icon-btn:hover {
+            background: rgba(255,255,255,0.1);
+            color: var(--text-primary);
+            border-color: var(--primary-gold);
+            transform: translateY(-2px);
+        }
+
+        /* Layout Grid */
+        .app-grid {
+            display: grid;
+            grid-template-columns: 280px 1fr;
+            gap: 30px;
+            max-width: 1600px;
+            margin: 0 auto;
+            padding: 30px;
+        }
+
+        /* Countdown Box */
+        .countdown-box {
+            background: linear-gradient(180deg, rgba(251, 191, 36, 0.1) 0%, transparent 100%);
+            border: 1px solid rgba(251, 191, 36, 0.3);
+            border-radius: 16px;
+            padding: 20px;
+            text-align: center;
+            margin-bottom: 24px;
+            position: relative;
+            overflow: hidden;
+            animation: floatSubtle 6s ease-in-out infinite;
+        }
+        .countdown-box::before {
+            content: '';
+            position: absolute; top: 0; left: 0; width: 100%; height: 2px;
+            background: var(--gradient-gold);
+            box-shadow: 0 0 10px var(--primary-gold);
+        }
+        .countdown-label {
+            font-size: 10px;
+            color: var(--primary-gold);
+            font-weight: 800;
             text-transform: uppercase;
-            letter-spacing: 0.5px;
+            letter-spacing: 2px;
+            margin-bottom: 8px;
+        }
+        .countdown-time {
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 18px;
+            font-weight: 800;
+            color: #fff;
+            text-shadow: 0 0 20px rgba(251, 191, 36, 0.4);
+        }
+
+        /* Tabs */
+        .tab-container {
+            display: inline-flex;
+            background: rgba(0,0,0,0.4);
+            padding: 6px;
+            border-radius: 14px;
+            border: 1px solid var(--border-subtle);
+            gap: 4px;
+        }
+        .tab-btn {
+            padding: 10px 24px;
+            border-radius: 10px;
             border: none;
             background: transparent;
             color: var(--text-secondary);
+            font-weight: 700;
+            font-size: 12px;
             cursor: pointer;
             transition: all 0.3s;
-            position: relative;
-            overflow: hidden;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
         }
-
-        .tab-btn:hover {
-            color: var(--text-primary);
-            background: rgba(255, 255, 255, 0.05);
-        }
-
+        .tab-btn:hover { color: var(--text-primary); background: rgba(255,255,255,0.05); }
         .tab-btn.active {
-            background: linear-gradient(135deg, var(--primary-gold), #c9a227);
+            background: var(--gradient-gold);
             color: #000;
-            box-shadow: 0 4px 16px rgba(212, 175, 55, 0.4);
+            box-shadow: 0 4px 15px rgba(251, 191, 36, 0.3);
+            animation: pulseGlowGold 3s infinite;
+        }
+
+        /* Inner Tabs (Strategy) */
+        .inner-tab {
+            padding: 10px 20px;
+            border-radius: 12px;
+            font-size: 12px;
+            font-weight: 700;
+            cursor: pointer;
+            background: var(--bg-input);
+            color: var(--text-secondary);
+            border: 1px solid transparent;
+            transition: all 0.2s;
+            text-transform: uppercase;
+        }
+        .inner-tab:hover { background: rgba(255,255,255,0.08); }
+        .inner-tab.active {
+            background: rgba(251, 191, 36, 0.1);
+            border-color: var(--primary-gold);
+            color: var(--primary-gold);
+            box-shadow: 0 0 15px rgba(251, 191, 36, 0.1);
         }
 
         /* Checklist Items */
@@ -225,424 +345,1716 @@
             display: flex;
             align-items: center;
             gap: 16px;
-            padding: 20px 24px;
+            padding: 18px 24px;
             background: rgba(255, 255, 255, 0.02);
-            border: 1px solid var(--border-subtle);
-            border-radius: 16px;
+            border-radius: 14px;
+            margin-bottom: 12px;
             cursor: pointer;
-            transition: all 0.3s;
-            position: relative;
+            border: 1px solid var(--border-subtle);
+            transition: all 0.2s;
         }
-
         .check-item:hover {
-            background: rgba(255, 255, 255, 0.04);
-            border-color: rgba(212, 175, 55, 0.3);
+            background: rgba(255, 255, 255, 0.05);
+            border-color: rgba(255,255,255,0.2);
+            transform: translateX(5px);
         }
-
         .check-item.checked {
-            background: rgba(0, 255, 136, 0.05);
+            background: rgba(52, 211, 153, 0.08);
             border-color: var(--accent-green);
         }
-
         .checkbox {
             width: 24px;
             height: 24px;
-            border: 2px solid var(--border-subtle);
             border-radius: 8px;
+            border: 2px solid rgba(255,255,255,0.3);
             display: flex;
             align-items: center;
             justify-content: center;
-            transition: all 0.3s;
-            flex-shrink: 0;
+            transition: all 0.2s;
         }
-
         .check-item.checked .checkbox {
             background: var(--accent-green);
             border-color: var(--accent-green);
-            box-shadow: 0 0 16px rgba(0, 255, 136, 0.4);
-        }
-
-        /* Progress Bar */
-        .progress-container {
-            height: 4px;
-            background: rgba(255, 255, 255, 0.05);
-            border-radius: 4px;
-            overflow: hidden;
-        }
-
-        .progress-bar {
-            height: 100%;
-            background: linear-gradient(90deg, var(--primary-gold), var(--accent-green));
-            transition: width 0.6s cubic-bezier(0.4, 0, 0.2, 1);
-            box-shadow: 0 0 20px rgba(212, 175, 55, 0.6);
+            color: #000;
         }
 
         /* Execute Button */
         .execute-btn {
             width: 100%;
-            padding: 32px;
-            border-radius: 20px;
-            font-size: 18px;
-            font-weight: 900;
+            padding: 24px;
+            border-radius: 16px;
+            font-size: 15px;
+            font-weight: 800;
             text-transform: uppercase;
-            letter-spacing: 3px;
+            letter-spacing: 2px;
             border: none;
-            cursor: pointer;
-            transition: all 0.4s;
+            background: rgba(255,255,255,0.05);
+            color: var(--text-secondary);
+            cursor: not-allowed;
+            transition: all 0.3s;
+            font-family: 'Plus Jakarta Sans', sans-serif;
             position: relative;
             overflow: hidden;
         }
-
-        .execute-btn:disabled {
-            background: rgba(255, 255, 255, 0.03);
-            color: var(--text-secondary);
-            cursor: not-allowed;
-            border: 1px solid var(--border-subtle);
-        }
-
         .execute-btn.ready {
-            background: linear-gradient(135deg, var(--primary-gold), #ffed4e);
+            background: var(--gradient-gold);
             color: #000;
-            box-shadow: 0 12px 40px rgba(212, 175, 55, 0.4);
             cursor: pointer;
+            box-shadow: 0 8px 30px rgba(251, 191, 36, 0.3);
+            animation: pulseGlowGold 2s infinite;
         }
-
         .execute-btn.ready:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 16px 50px rgba(212, 175, 55, 0.6);
+            transform: translateY(-3px);
+            box-shadow: 0 12px 40px rgba(251, 191, 36, 0.5);
         }
 
-        /* Sidebar Cards */
-        .info-card {
-            padding: 24px;
-            background: rgba(21, 25, 34, 0.6);
-            border: 1px solid var(--border-subtle);
-            border-radius: 20px;
-        }
-
-        .info-card-title {
-            font-size: 11px;
-            font-weight: 800;
-            text-transform: uppercase;
-            letter-spacing: 1.5px;
-            color: var(--primary-gold);
-            margin-bottom: 16px;
-        }
-
-        /* Session Status */
-        .session-item {
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-            padding: 14px 16px;
-            background: rgba(255, 255, 255, 0.02);
+        /* Form Inputs */
+        .form-input {
+            width: 100%;
+            padding: 16px;
+            background: rgba(0,0,0,0.3);
             border: 1px solid var(--border-subtle);
             border-radius: 12px;
-            margin-bottom: 8px;
-        }
-
-        .session-item.active {
-            background: rgba(0, 255, 136, 0.05);
-            border-color: var(--accent-green);
-        }
-
-        .session-badge {
-            padding: 4px 10px;
-            border-radius: 6px;
-            font-size: 10px;
-            font-weight: 700;
-            text-transform: uppercase;
-            letter-spacing: 0.5px;
-        }
-
-        .session-badge.active {
-            background: var(--accent-green);
-            color: #000;
-        }
-
-        .session-badge.offline {
-            background: rgba(255, 255, 255, 0.1);
-            color: var(--text-secondary);
-        }
-
-        /* Calculator Styles */
-        .calc-input {
-            width: 100%;
-            background: rgba(255, 255, 255, 0.05);
-            border: 1px solid var(--border-subtle);
-            border-radius: 16px;
-            padding: 16px 20px;
-            color: var(--text-primary);
-            font-size: 16px;
+            color: #fff;
             font-family: 'JetBrains Mono', monospace;
-            font-weight: 700;
-            transition: all 0.3s;
+            font-size: 14px;
+            transition: all 0.2s;
         }
-
-        .calc-input:focus {
+        .form-input:focus {
             outline: none;
             border-color: var(--primary-gold);
-            background: rgba(255, 255, 255, 0.08);
+            background: rgba(0,0,0,0.5);
+            box-shadow: 0 0 0 2px rgba(251, 191, 36, 0.2);
         }
-
-        .calc-label {
+        .form-label {
             font-size: 11px;
             font-weight: 700;
             text-transform: uppercase;
             color: var(--text-secondary);
             margin-bottom: 8px;
             display: block;
-            letter-spacing: 1px;
+            letter-spacing: 0.5px;
+        }
+
+        /* Modal */
+        .modal {
+            position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+            background: rgba(0,0,0,0.9);
+            backdrop-filter: blur(10px);
+            z-index: 2000;
+            display: flex; align-items: center; justify-content: center;
+            opacity: 0;
+            pointer-events: none;
+            transition: opacity 0.3s ease;
+        }
+        .modal[style*="display: flex"] {
+            opacity: 1;
+            pointer-events: auto;
+        }
+        .modal[style*="display: flex"] .glass-card {
+            animation: fadeInUp 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275) forwards;
+        }
+
+
+        /* Progress Bar */
+        .progress-container {
+            height: 6px;
+            background: rgba(255,255,255,0.1);
+            border-radius: 10px;
+            overflow: hidden;
+            margin-bottom: 30px;
+        }
+        .progress-bar {
+            height: 100%;
+            background: var(--gradient-gold);
+            transition: width 0.6s cubic-bezier(0.4, 0, 0.2, 1);
+            box-shadow: 0 0 15px rgba(251, 191, 36, 0.5);
+        }
+
+        /* Auth Screen */
+        #auth-overlay {
+            position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+            background: var(--bg-app);
+            z-index: 2000;
+            display: flex; align-items: center; justify-content: center;
+            background-image: 
+                radial-gradient(circle at 50% 50%, rgba(251, 191, 36, 0.05), transparent 60%);
+        }
+
+        /* DASHBOARD STYLES */
+        .dash-card {
+            background: linear-gradient(145deg, rgba(255,255,255,0.05) 0%, rgba(255,255,255,0.02) 100%);
+            border: 1px solid var(--border-subtle);
+            border-radius: 20px;
+            padding: 24px;
+            transition: all 0.3s;
+            position: relative;
+            overflow: hidden;
+            /* Staggered entry applied via nth-child below */
+            opacity: 0; /* Init hidden for animation */
+            animation: fadeInUp 0.6s ease-out forwards;
+        }
+        /* Staggered delays for cards */
+        .dash-card:nth-child(1) { animation-delay: 0.1s; }
+        .dash-card:nth-child(2) { animation-delay: 0.2s; }
+        .dash-card:nth-child(3) { animation-delay: 0.3s; }
+        .dash-card:nth-child(4) { animation-delay: 0.4s; }
+        .dash-card:nth-child(5) { animation-delay: 0.5s; }
+
+        .dash-card:hover {
+            border-color: rgba(251, 191, 36, 0.4);
+            transform: translateY(-4px);
+            box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+        }
+
+        /* Hover Shimmer Effect for Dash Cards */
+        .dash-card::after {
+            content: "";
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(to right, transparent 0%, rgba(255,255,255,0.03) 50%, transparent 100%);
+            background-size: 200% 100%;
+            opacity: 0;
+            transition: opacity 0.3s;
+            pointer-events: none;
+        }
+        .dash-card:hover::after {
+            opacity: 1;
+            animation: shimmerEffect 1.5s infinite linear;
+        }
+
+        /* Moving Grid Background for Dashboard */
+        .trading-grid-bg {
+            background-size: 40px 40px;
+            background-image: linear-gradient(to right, rgba(255, 255, 255, 0.02) 1px, transparent 1px),
+                              linear-gradient(to bottom, rgba(255, 255, 255, 0.02) 1px, transparent 1px);
+            animation: gridMove 20s linear infinite;
+        }
+
+        .nav-btn {
+            background: transparent;
+            border: none;
+            color: var(--text-secondary);
+            font-weight: 700;
+            font-size: 14px;
+            cursor: pointer;
+            padding: 8px 16px;
+            border-radius: 8px;
+            transition: all 0.3s;
+        }
+        .nav-btn:hover { color: #fff; background: rgba(255,255,255,0.05); }
+        .nav-btn.active {
+            background: var(--primary-gold);
+            color: #000;
+            box-shadow: 0 0 15px rgba(251, 191, 36, 0.3);
+        }
+        
+        /* BLURRED TERMINAL CLASS */
+        .blur-terminal {
+            filter: blur(15px);
+            pointer-events: none;
+            user-select: none;
+            transition: filter 0.3s ease;
+        }
+
+        /* PROGRESS BARS FOR ACCOUNT HEALTH */
+        .health-bar-container {
+            width: 100%;
+            height: 6px;
+            background: rgba(255,255,255,0.05);
+            border-radius: 4px;
+            margin-top: 8px;
+            overflow: hidden;
+        }
+        .health-bar {
+            height: 100%;
+            border-radius: 4px;
+            animation: growWidth 1.5s ease-out forwards;
         }
 
         /* Scrollbar */
-        ::-webkit-scrollbar { width: 8px; }
-        ::-webkit-scrollbar-track { background: rgba(255, 255, 255, 0.02); }
-        ::-webkit-scrollbar-thumb { 
-            background: var(--primary-gold); 
-            border-radius: 4px; 
-        }
-        ::-webkit-scrollbar-thumb:hover { background: #ffed4e; }
+        ::-webkit-scrollbar { width: 6px; }
+        ::-webkit-scrollbar-track { background: transparent; }
+        ::-webkit-scrollbar-thumb { background: rgba(255,255,255,0.1); border-radius: 4px; }
+        ::-webkit-scrollbar-thumb:hover { background: rgba(255,255,255,0.2); }
 
         /* Responsive */
         @media (max-width: 1024px) {
-            .logo-text { font-size: 20px; }
-            .execute-btn { padding: 24px; font-size: 14px; }
+            .app-grid { grid-template-columns: 1fr; }
+            .sidebar { display: none; } /* Hide sidebar on mobile for now */
         }
     </style>
 </head>
 <body>
-    <div class="grid-bg"></div>
-    <div class="ambient-glow glow-1"></div>
-    <div class="ambient-glow glow-2"></div>
 
-    <div style="position: relative; z-index: 10;">
-        <header class="premium-header">
-            <div class="max-w-[1600px] mx-auto px-6 py-4 flex items-center justify-between">
-                <div class="logo-container">
-                    <div class="logo-icon">
-                        <i class="fa-solid fa-chart-line"></i>
-                    </div>
-                    <div>
-                        <div class="logo-text">GET AND PROFIT</div>
-                        <div style="font-size: 11px; color: var(--text-secondary); font-weight: 600; letter-spacing: 2px; text-transform: uppercase;">Professional Trading Terminal</div>
-                    </div>
+    <!-- AUTH OVERLAY -->
+    <div id="auth-overlay">
+        <div class="glass-card" style="width: 420px; padding: 48px; text-align: center; border-color: rgba(251, 191, 36, 0.3);">
+            <div style="width: 70px; height: 70px; background: var(--gradient-gold); border-radius: 20px; display: inline-flex; align-items: center; justify-content: center; font-size: 28px; color: #000; margin-bottom: 30px; box-shadow: 0 10px 30px rgba(251, 191, 36, 0.3);">
+                <i class="fa-solid fa-shield-halved"></i>
+            </div>
+            <h2 id="auth-title" style="font-size: 24px; font-weight: 800; text-transform: uppercase; color: #fff; margin-bottom: 12px; letter-spacing: 1px;">Access Terminal</h2>
+            <p id="auth-desc" style="font-size: 14px; color: var(--text-secondary); margin-bottom: 36px; line-height: 1.6;">Secure login to access your professional trading journal and analysis tools.</p>
+
+            <form id="auth-form" onsubmit="handleAuth(event)">
+                <div style="text-align: left; margin-bottom: 20px;">
+                    <label class="form-label">Email Address</label>
+                    <input type="email" id="auth-email" class="form-input" placeholder="trader@pro.com" required>
+                </div>
+                <div style="text-align: left; margin-bottom: 16px;">
+                    <label class="form-label">Password</label>
+                    <input type="password" id="auth-password" class="form-input" placeholder="••••••••" required>
                 </div>
 
-                <div style="display: flex; align-items: center; gap: 24px;">
-                    <div style="display: flex; gap: 16px; padding: 12px 20px; background: rgba(0, 0, 0, 0.4); border-radius: 16px; border: 1px solid var(--border-subtle);">
-                        <div style="text-align: center;">
-                            <div style="font-size: 9px; color: var(--text-secondary); font-weight: 700; text-transform: uppercase; margin-bottom: 4px;">London</div>
-                            <div id="clock-london" style="font-family: 'JetBrains Mono', monospace; font-size: 13px; font-weight: 700; color: var(--text-primary);">--:--:--</div>
+                <div style="text-align: right; margin-bottom: 24px;">
+                    <button type="button" onclick="openModal('reset-password-modal')" style="background:none; border:none; color: var(--text-secondary); font-size: 12px; cursor: pointer; font-weight: 600; transition: color 0.3s;" onmouseover="this.style.color='var(--primary-gold)'" onmouseout="this.style.color='var(--text-secondary)'">Forgot Password?</button>
+                </div>
+
+                <div id="auth-error" style="color: var(--accent-red); font-size: 12px; margin-bottom: 16px; display: none; font-weight: 700; text-transform: uppercase;"></div>
+
+                <button type="submit" id="btn-login" class="execute-btn ready" style="padding: 18px; font-size: 14px;">
+                    Login to Dashboard
+                </button>
+                <div style="margin-top: 24px;">
+                    <button type="button" id="btn-toggle-auth" onclick="toggleAuthMode()" style="background: none; border: none; color: var(--text-secondary); cursor: pointer; font-size: 12px; text-transform: uppercase; font-weight: 700; letter-spacing: 1px; transition: color 0.3s;">
+                        No Account? Create One
+                    </button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!-- RESET PASSWORD MODAL -->
+    <div id="reset-password-modal" class="modal" style="display: none;">
+        <div class="glass-card" style="width: 420px; padding: 40px; background: #0b0f19;">
+            <div style="text-align: center; margin-bottom: 24px;">
+                <div style="width: 60px; height: 60px; background: rgba(251, 191, 36, 0.1); border-radius: 16px; display: inline-flex; align-items: center; justify-content: center; font-size: 24px; color: var(--primary-gold); margin-bottom: 20px; border: 1px solid rgba(251, 191, 36, 0.3);">
+                    <i class="fa-solid fa-key"></i>
+                </div>
+                <h3 style="font-size: 20px; font-weight: 800; color: #fff; margin-bottom: 8px; text-transform: uppercase;">Reset Password</h3>
+                <p style="font-size: 13px; color: var(--text-secondary);">Enter your email to receive a password reset link.</p>
+            </div>
+            
+            <div style="margin-bottom: 24px;">
+                <label class="form-label">Email Address</label>
+                <input type="email" id="reset-email" class="form-input" placeholder="trader@pro.com">
+            </div>
+            
+            <div style="display: flex; gap: 12px;">
+                <button onclick="closeModal('reset-password-modal')" class="execute-btn" style="padding: 14px; font-size: 12px; width: 40%;">Cancel</button>
+                <button onclick="handlePasswordReset()" class="execute-btn ready" style="padding: 14px; font-size: 12px; width: 60%;">Send Link</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- STRATEGY PASSWORD MODAL -->
+    <div id="strategy-password-modal" class="modal" style="display: none;">
+        <div class="glass-card" style="width: 350px; padding: 32px; background: #0b0f19; text-align: center;">
+            <div style="margin-bottom: 20px;">
+                <i class="fa-solid fa-lock" style="font-size: 32px; color: var(--primary-gold);"></i>
+            </div>
+            <h3 style="font-size: 18px; font-weight: 800; color: #fff; margin-bottom: 8px;">Restricted Access</h3>
+            <p style="font-size: 13px; color: var(--text-secondary); margin-bottom: 24px;">Enter security code to access Strategy.</p>
+            
+            <div style="margin-bottom: 20px;">
+                <input type="password" id="strat-password-input" class="form-input" placeholder="Passcode" style="text-align: center; letter-spacing: 4px; font-size: 18px;">
+                <div id="strat-password-error" style="color: var(--accent-red); font-size: 12px; margin-top: 8px; display: none;">Incorrect Passcode</div>
+            </div>
+            
+            <div style="display: flex; gap: 10px;">
+                <button onclick="closeModal('strategy-password-modal')" class="execute-btn" style="padding: 12px; font-size: 12px;">Cancel</button>
+                <button onclick="checkStrategyPassword()" class="execute-btn ready" style="padding: 12px; font-size: 12px;">Unlock</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- NEW ACCOUNT MODAL -->
+    <div id="new-account-modal" class="modal" style="display: none;">
+        <div class="glass-card" style="width: 480px; padding: 40px; background: #0b0f19;">
+            <h3 style="font-size: 20px; font-weight: 800; color: #fff; margin-bottom: 30px; text-transform: uppercase; border-bottom: 1px solid var(--border-subtle); padding-bottom: 20px;">Add Funded Account</h3>
+            <div style="display: flex; flex-direction: column; gap: 24px;">
+                <div>
+                    <label class="form-label">Account Name</label>
+                    <input type="text" id="acc-name" class="form-input" placeholder="e.g. FTMO 100k">
+                </div>
+                <div>
+                    <label class="form-label">Initial Balance ($)</label>
+                    <input type="number" id="acc-balance" class="form-input" placeholder="100000">
+                </div>
+                <div style="display: flex; gap: 16px; margin-top: 10px;">
+                    <button onclick="closeModal('new-account-modal')" class="execute-btn" style="padding: 16px; font-size: 13px; width: 40%;">Cancel</button>
+                    <button onclick="createAccount()" class="execute-btn ready" style="padding: 16px; font-size: 13px; width: 60%;">Create Account</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- ANALYSIS MODAL -->
+    <div id="analysis-modal" class="modal" style="display: none;">
+        <div class="glass-card" style="width: 90%; max-width: 1000px; padding: 50px; max-height: 90vh; overflow-y: auto; background: #0b0f19;">
+            <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 40px; border-bottom: 1px solid var(--border-subtle); padding-bottom: 24px;">
+                <div>
+                    <h3 style="font-size: 28px; font-weight: 800; color: #fff; text-transform: uppercase;">Account Analysis</h3>
+                    <div id="ana-acc-name" style="color: var(--primary-gold); font-size: 14px; font-weight: 700; margin-top: 6px; letter-spacing: 1px;">--</div>
+                </div>
+                <div style="display: flex; align-items: center; gap: 16px;">
+                    <button onclick="resetAnalysis()" style="padding: 12px 24px; border: 1px solid rgba(248, 113, 113, 0.3); border-radius: 10px; color: var(--accent-red); background: rgba(248, 113, 113, 0.1); cursor: pointer; font-size: 12px; text-transform: uppercase; font-weight: 800; transition: all 0.2s;">
+                        <i class="fa-solid fa-rotate-right mr-2"></i> Reset Stats
+                    </button>
+                    <button onclick="closeModal('analysis-modal')" class="icon-btn">
+                        <i class="fa-solid fa-xmark"></i>
+                    </button>
+                </div>
+            </div>
+
+            <div style="display: grid; grid-template-columns: repeat(4, 1fr); gap: 20px; margin-bottom: 30px;">
+                <div class="glass-card" style="padding: 24px; text-align: center; background: rgba(255,255,255,0.02);">
+                    <div class="form-label">Win Rate</div>
+                    <div id="ana-winrate" style="font-size: 32px; font-weight: 800; color: var(--accent-green); margin-top: 8px;">0%</div>
+                </div>
+                <div class="glass-card" style="padding: 24px; text-align: center; background: rgba(255,255,255,0.02);">
+                    <div class="form-label">Total Trades</div>
+                    <div id="ana-total" style="font-size: 32px; font-weight: 800; color: #fff; margin-top: 8px;">0</div>
+                </div>
+                <div class="glass-card" style="padding: 24px; text-align: center; background: rgba(255,255,255,0.02);">
+                    <div class="form-label">Total PnL</div>
+                    <div id="ana-pnl" style="font-size: 32px; font-weight: 800; color: #fff; font-family: 'JetBrains Mono'; margin-top: 8px;">$0</div>
+                </div>
+                <div class="glass-card" style="padding: 24px; text-align: center; background: rgba(255,255,255,0.02);">
+                    <div class="form-label">Profit Factor</div>
+                    <div id="ana-pf" style="font-size: 32px; font-weight: 800; color: var(--primary-gold); margin-top: 8px;">0.00</div>
+                </div>
+            </div>
+
+            <div class="glass-card" style="padding: 30px; background: rgba(0,0,0,0.2);">
+                <div class="form-label" style="margin-bottom: 24px;">Balance Growth Curve</div>
+                <div style="height: 400px; width: 100%;">
+                    <canvas id="balanceChart"></canvas>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- PROFILE MODAL -->
+    <div id="profile-modal" class="modal" style="display: none;">
+        <div class="glass-card" style="width: 420px; padding: 40px; background: #0b0f19;">
+            <div style="text-align: center; margin-bottom: 32px;">
+                <div style="width: 80px; height: 80px; background: rgba(251, 191, 36, 0.1); border-radius: 50%; display: inline-flex; align-items: center; justify-content: center; font-size: 32px; color: var(--primary-gold); margin-bottom: 20px; border: 2px solid var(--primary-gold); box-shadow: 0 0 20px rgba(251, 191, 36, 0.2);">
+                    <i class="fa-solid fa-user"></i>
+                </div>
+                <h3 style="font-size: 20px; font-weight: 800; color: #fff; text-transform: uppercase; letter-spacing: 1px;">User Profile</h3>
+            </div>
+            
+            <div style="display: flex; flex-direction: column; gap: 20px; margin-bottom: 32px;">
+                <div>
+                    <div class="form-label">Email</div>
+                    <div id="prof-email" style="color: #fff; font-family: 'JetBrains Mono'; font-size: 14px; background: rgba(0,0,0,0.3); padding: 12px; border-radius: 10px; border: 1px solid var(--border-subtle);">--</div>
+                </div>
+                <div>
+                    <div class="form-label">User ID</div>
+                    <div id="prof-uid" style="color: var(--text-secondary); font-family: 'JetBrains Mono'; font-size: 12px; word-break: break-all; background: rgba(0,0,0,0.3); padding: 12px; border-radius: 10px; border: 1px solid var(--border-subtle);">--</div>
+                </div>
+                <div>
+                    <div class="form-label">Link TradingView ID</div>
+                    <div style="display: flex; gap: 10px;">
+                         <input type="text" id="tv-id-input" class="form-input" placeholder="Your TV Username" style="font-size: 13px; padding: 12px;">
+                         <button onclick="window.saveTradingViewID()" class="execute-btn ready" style="width: auto; padding: 12px 20px; font-size: 12px;">Save</button>
+                    </div>
+                     <div id="tv-id-status" style="font-size: 11px; color: var(--accent-green); margin-top: 8px; display: none; font-weight: 700;">Linked Successfully</div>
+                </div>
+                <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 16px;">
+                    <div>
+                        <div class="form-label">Member Since</div>
+                        <div id="prof-created" style="color: #fff; font-size: 13px;">--</div>
+                    </div>
+                    <div>
+                        <div class="form-label">Last Login</div>
+                        <div id="prof-lastlogin" style="color: #fff; font-size: 13px;">--</div>
+                    </div>
+                </div>
+            </div>
+
+            <button onclick="closeModal('profile-modal')" class="execute-btn" style="padding: 16px; font-size: 13px;">Close</button>
+        </div>
+    </div>
+
+    <!-- CLOSE TRADE MODAL -->
+    <div id="close-trade-modal" class="modal" style="display: none;">
+        <div class="glass-card" style="width: 450px; padding: 40px; background: #0b0f19;">
+            <h3 style="font-size: 20px; font-weight: 800; color: #fff; margin-bottom: 30px; text-transform: uppercase; border-bottom: 1px solid var(--border-subtle); padding-bottom: 20px;">CLOSE TRADE</h3>
+            <input type="hidden" id="close-trade-id">
+            <div style="display: flex; flex-direction: column; gap: 24px;">
+                <div>
+                    <label class="form-label">Outcome</label>
+                    <select id="close-outcome" class="form-input">
+                        <option value="WIN">WIN</option>
+                        <option value="LOSS">LOSS</option>
+                        <option value="BE">BREAK EVEN</option>
+                    </select>
+                </div>
+                <div>
+                    <label class="form-label">Profit/Loss Amount ($)</label>
+                    <input type="number" id="close-pnl" class="form-input" placeholder="e.g. 500">
+                    <div style="font-size: 11px; color: var(--text-secondary); margin-top: 8px;">Enter amount only. System handles +/- based on outcome.</div>
+                </div>
+                <div style="display: flex; gap: 16px; margin-top: 16px;">
+                    <button onclick="closeModal('close-trade-modal')" class="execute-btn" style="padding: 16px; font-size: 13px; width: 40%;">Cancel</button>
+                    <button onclick="confirmCloseTrade()" class="execute-btn ready" style="padding: 16px; font-size: 13px; width: 60%;">Update Balance</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- MAIN APP STRUCTURE -->
+    <div style="position: relative; z-index: 10;">
+        <header class="premium-header">
+            <div class="max-w-[1600px] mx-auto px-6 flex items-center justify-between">
+                <!-- UPDATED LOGO CONTAINER WITH BACKGROUND FIX -->
+                <div class="logo-container">
+                    <img src="https://github.com/nilukshanaayodaya-ops/getandProfite/blob/8327f20fec5d58a256e4132d630536d1b8f6f127/Horizontal_Logo_with_Integrated_Arrow-removebg-preview%20(1)-Picsart-AiImageEnhancer.png?raw=true" alt="Get And Profit Logo" class="custom-logo">
+                </div>
+
+                <div class="header-tools" style="display: flex; align-items: center; gap: 24px;">
+                    <div style="display: flex; gap: 10px;">
+                        <button onclick="showDashboard()" id="nav-dash" class="nav-btn active">Dashboard</button>
+                        <button onclick="showTerminal()" id="nav-term" class="nav-btn">Terminal</button>
+                        <!-- NEW BUTTON: G & P Ai -->
+                        <button onclick="showAI()" id="nav-ai" class="nav-btn"><i class="fa-solid fa-wand-magic-sparkles mr-2"></i>G & P Ai</button>
+                    </div>
+
+                    <!-- Clocks Re-inserted Here -->
+                    <div class="clock-widget">
+                        <div class="clock-item">
+                            <div class="clock-label">London</div>
+                            <div id="clock-london" class="clock-time">--:--:--</div>
                         </div>
                         <div style="width: 1px; background: var(--border-subtle);"></div>
-                        <div style="text-align: center;">
-                            <div style="font-size: 9px; color: var(--text-secondary); font-weight: 700; text-transform: uppercase; margin-bottom: 4px;">New York</div>
-                            <div id="clock-newyork" style="font-family: 'JetBrains Mono', monospace; font-size: 13px; font-weight: 700; color: var(--text-primary);">--:--:--</div>
+                        <div class="clock-item">
+                            <div class="clock-label">New York</div>
+                            <div id="clock-newyork" class="clock-time">--:--:--</div>
                         </div>
                         <div style="width: 1px; background: var(--border-subtle);"></div>
-                        <div style="text-align: center; background: rgba(212, 175, 55, 0.1); padding: 0 12px; border-radius: 8px;">
-                            <div style="font-size: 9px; color: var(--primary-gold); font-weight: 700; text-transform: uppercase; margin-bottom: 4px;">Colombo</div>
-                            <div id="clock-colombo" style="font-family: 'JetBrains Mono', monospace; font-size: 13px; font-weight: 700; color: var(--primary-gold);">--:--:--</div>
+                        <div class="clock-item active">
+                            <div class="clock-label" style="color: var(--primary-gold);">Colombo</div>
+                            <div id="clock-colombo" class="clock-time" style="color: var(--primary-gold);">--:--:--</div>
                         </div>
                     </div>
 
-                    <div class="status-live">
-                        <div class="status-dot"></div>
-                        <span style="color: var(--accent-green);">System Online</span>
+                    <div style="width: 1px; height: 30px; background: var(--border-subtle);"></div>
+
+                    <div style="display: flex; align-items: center; gap: 16px;">
+                        <div class="status-live">
+                            <div class="status-dot"></div>
+                            <span>Online</span>
+                        </div>
+                        <button onclick="openProfileModal()" class="icon-btn" title="My Profile">
+                            <i class="fa-solid fa-user"></i>
+                        </button>
+                        <button onclick="logout()" class="icon-btn" title="Logout">
+                            <i class="fa-solid fa-power-off"></i>
+                        </button>
                     </div>
                 </div>
             </div>
         </header>
 
         <div class="max-w-[1600px] mx-auto px-6 py-8">
-            <div style="display: grid; grid-template-columns: 280px 1fr; gap: 24px;">
-                <aside style="display: flex; flex-direction: column; gap: 20px;">
-                    <div class="info-card">
-                        <div class="info-card-title">
+            
+            <!-- DASHBOARD VIEW -->
+            <div id="main-dashboard" class="trading-grid-bg" style="min-height: 80vh; border-radius: 30px; padding: 20px;">
+                <div style="display:flex; justify-content:space-between; align-items:end; margin-bottom: 40px; animation: fadeInUp 0.8s ease-out;">
+                    <div>
+                        <h1 id="dash-greeting" style="font-size: 42px; font-weight: 800; background: linear-gradient(to right, #fff, #94a3b8); -webkit-background-clip: text; -webkit-text-fill-color: transparent; margin-bottom:8px;">Good Morning, Trader</h1>
+                        <p style="color: var(--text-secondary); font-size:16px;">Welcome to your command center. System is optimal.</p>
+                    </div>
+                    <div style="text-align:right;">
+                         <div style="font-size:32px; font-weight:800; color:var(--primary-gold); line-height:1; animation: floatSubtle 5s ease-in-out infinite;">2026</div>
+                         <div style="font-size:12px; color:var(--text-secondary); letter-spacing:2px; text-transform:uppercase;">GET & PROFIT AI</div>
+                    </div>
+                </div>
+
+                <!-- DASHBOARD STATS -->
+                <div style="display: grid; grid-template-columns: repeat(3, 1fr); gap: 30px; margin-bottom: 40px;">
+                    <div class="dash-card">
+                        <div style="display: flex; align-items: flex-start; justify-content: space-between;">
+                            <div>
+                                <div style="font-size: 13px; font-weight: 700; color: var(--text-secondary); text-transform: uppercase;">Total Equity</div>
+                                <!-- Added Count Up ID Target -->
+                                <div id="dash-total-equity" style="font-size: 36px; font-weight: 800; color: #fff; margin-top: 8px; font-family: 'JetBrains Mono';">$0.00</div>
+                            </div>
+                            <div style="width: 50px; height: 50px; background: rgba(251, 191, 36, 0.1); border-radius: 12px; display: flex; align-items: center; justify-content: center; color: var(--primary-gold); font-size: 20px;">
+                                <i class="fa-solid fa-wallet"></i>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="dash-card">
+                        <div style="display: flex; align-items: flex-start; justify-content: space-between;">
+                            <div>
+                                <div style="font-size: 13px; font-weight: 700; color: var(--text-secondary); text-transform: uppercase;">Total PnL</div>
+                                <div id="dash-total-pnl" style="font-size: 36px; font-weight: 800; color: #fff; margin-top: 8px; font-family: 'JetBrains Mono';">$0.00</div>
+                            </div>
+                            <div style="width: 50px; height: 50px; background: rgba(52, 211, 153, 0.1); border-radius: 12px; display: flex; align-items: center; justify-content: center; color: var(--accent-green); font-size: 20px;">
+                                <i class="fa-solid fa-chart-line"></i>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="dash-card">
+                        <div style="display: flex; align-items: flex-start; justify-content: space-between;">
+                            <div>
+                                <div style="font-size: 13px; font-weight: 700; color: var(--text-secondary); text-transform: uppercase;">Account Growth</div>
+                                <div id="dash-total-growth" style="font-size: 36px; font-weight: 800; color: var(--primary-gold); margin-top: 8px; font-family: 'JetBrains Mono';">0%</div>
+                            </div>
+                            <div style="width: 50px; height: 50px; background: rgba(59, 130, 246, 0.1); border-radius: 12px; display: flex; align-items: center; justify-content: center; color: var(--accent-blue); font-size: 20px;">
+                                <i class="fa-solid fa-arrow-trend-up"></i>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div style="display: grid; grid-template-columns: 2fr 1fr; gap: 30px;">
+                    <!-- ACCOUNTS LIST ON DASHBOARD -->
+                    <div>
+                        <h3 style="font-size: 20px; font-weight: 700; color: #fff; margin-bottom: 20px;">Your Accounts</h3>
+                        <div id="dash-accounts-grid" style="display: grid; grid-template-columns: repeat(auto-fill, minmax(300px, 1fr)); gap: 24px;">
+                            <!-- Populated by JS -->
+                        </div>
+                    </div>
+
+                    <!-- ADVANCED WIDGETS -->
+                    <div style="display:flex; flex-direction:column; gap:24px;">
+                         <!-- Quick Action (MOVED TO TOP) -->
+                         <div class="dash-card" style="display: flex; align-items: center; justify-content: center; flex-direction: column; text-align: center; border-color: var(--primary-gold); box-shadow: 0 0 30px rgba(251, 191, 36, 0.1);">
+                            <button onclick="showTerminal()" style="background: var(--gradient-gold); color: #000; border: none; padding: 16px 40px; border-radius: 100px; font-size: 16px; font-weight: 800; cursor: pointer; transition: transform 0.2s; box-shadow: 0 10px 30px rgba(251, 191, 36, 0.3); width: 100%; margin-bottom: 16px;">
+                                <i class="fa-solid fa-rocket mr-2"></i> LAUNCH TERMINAL
+                            </button>
+                            <button onclick="showAI()" style="background: transparent; color: var(--primary-gold); border: 2px solid var(--primary-gold); padding: 16px 40px; border-radius: 100px; font-size: 16px; font-weight: 800; cursor: pointer; transition: all 0.2s; width: 100%; box-shadow: 0 0 15px rgba(251, 191, 36, 0.1);" onmouseover="this.style.background='rgba(251, 191, 36, 0.1)'" onmouseout="this.style.background='transparent'">
+                                <i class="fa-solid fa-wand-magic-sparkles mr-2"></i> G & P AI
+                            </button>
+                        </div>
+                        
+                        <!-- Capital Allocation (Chart) -->
+                        <div class="glass-card" style="padding:24px;">
+                            <h4 style="font-size:14px; font-weight:700; color:var(--text-secondary); text-transform:uppercase; margin-bottom:16px;">Capital Allocation</h4>
+                            <div style="height:200px; width:100%; position:relative;">
+                                <canvas id="allocationChart"></canvas>
+                            </div>
+                        </div>
+
+                        <!-- Account Health / Drawdown Monitor -->
+                         <div class="glass-card" style="padding:24px;">
+                            <h4 style="font-size:14px; font-weight:700; color:var(--text-secondary); text-transform:uppercase; margin-bottom:16px;">Account Health</h4>
+                             <div id="health-bars-container">
+                                 <!-- Populated by JS -->
+                                 <div style="color:var(--text-secondary); font-size:12px;">Loading health status...</div>
+                             </div>
+                        </div>
+
+                        <!-- Session Monitor -->
+                         <div class="glass-card" style="padding:24px;">
+                             <h4 style="font-size:14px; font-weight:700; color:var(--text-secondary); text-transform:uppercase; margin-bottom:16px;">Session Intelligence</h4>
+                             <div id="active-session-display">
+                                 <div style="display:flex; justify-content:space-between; margin-bottom:8px;">
+                                     <span style="font-size:13px; font-weight:600;">Active Session</span>
+                                     <span id="session-name-display" style="font-size:13px; color:var(--primary-gold);">Scanning...</span>
+                                 </div>
+                                  <div style="display:flex; justify-content:space-between;">
+                                     <span style="font-size:13px; font-weight:600;">Volatility</span>
+                                     <span id="volatility-display" style="font-size:13px; color:var(--accent-green);">Low</span>
+                                 </div>
+                             </div>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+
+            <!-- TERMINAL VIEW (HIDDEN BY DEFAULT) -->
+            <div id="main-terminal" class="app-grid hidden">
+                <!-- SIDEBAR PANEL -->
+                <aside class="sidebar glass-card">
+                    
+                    <!-- NEW YEAR COUNTDOWN -->
+                    <div class="countdown-box">
+                        <div class="countdown-label">Countdown to 2026</div>
+                        <div id="ny-countdown" class="countdown-time">00:00:00:00</div>
+                    </div>
+
+                    <div style="margin-bottom: 36px;">
+                        <div style="font-size: 12px; font-weight: 800; text-transform: uppercase; color: var(--primary-gold); margin-bottom: 20px; letter-spacing: 1px; display: flex; align-items: center; gap: 10px;">
                             <i class="fa-solid fa-book"></i> Trading Protocol
                         </div>
-                        <div style="display: flex; flex-direction: column; gap: 16px;">
-                            <div>
-                                <div style="font-size: 10px; color: var(--primary-gold); font-weight: 700; text-transform: uppercase; margin-bottom: 6px;">Patience</div>
-                                <div style="font-size: 13px; color: var(--text-secondary); line-height: 1.5;">Wait for perfect setup. Quality over quantity.</div>
+                        <div style="display: flex; flex-direction: column; gap: 12px;">
+                            <div style="background: var(--bg-input); padding: 16px; border-radius: 12px; border: 1px solid var(--border-subtle);">
+                                <div style="font-size: 11px; font-weight: 700; color: #fff; margin-bottom: 6px; text-transform: uppercase;">Patience</div>
+                                <div style="font-size: 12px; color: var(--text-secondary); line-height: 1.5;">Wait for perfect setup. Quality over quantity.</div>
                             </div>
-                            <div>
-                                <div style="font-size: 10px; color: var(--primary-gold); font-weight: 700; text-transform: uppercase; margin-bottom: 6px;">Discipline</div>
-                                <div style="font-size: 13px; color: var(--text-secondary); line-height: 1.5;">Never break your rules. Stick to the plan.</div>
+                            <div style="background: var(--bg-input); padding: 16px; border-radius: 12px; border: 1px solid var(--border-subtle);">
+                                <div style="font-size: 11px; font-weight: 700; color: #fff; margin-bottom: 6px; text-transform: uppercase;">Discipline</div>
+                                <div style="font-size: 12px; color: var(--text-secondary); line-height: 1.5;">Never break your rules. Stick to the plan.</div>
                             </div>
-                            <div>
-                                <div style="font-size: 10px; color: var(--primary-gold); font-weight: 700; text-transform: uppercase; margin-bottom: 6px;">Risk Management</div>
-                                <div style="font-size: 13px; color: var(--text-secondary); line-height: 1.5;">1-2% max per trade. Always.</div>
+                            <div style="background: var(--bg-input); padding: 16px; border-radius: 12px; border: 1px solid var(--border-subtle);">
+                                <div style="font-size: 11px; font-weight: 700; color: #fff; margin-bottom: 6px; text-transform: uppercase;">Risk Management</div>
+                                <div style="font-size: 12px; color: var(--text-secondary); line-height: 1.5;">1-2% max per trade. Always.</div>
                             </div>
                         </div>
                     </div>
 
-                    <div class="info-card">
-                        <div class="info-card-title">
+                    <div style="margin-bottom: 30px;">
+                        <div style="font-size: 12px; font-weight: 800; text-transform: uppercase; color: var(--text-primary); margin-bottom: 20px; letter-spacing: 1px; display: flex; align-items: center; gap: 10px;">
                             <i class="fa-solid fa-globe"></i> Market Sessions
                         </div>
-                        <div id="sessions-container"></div>
+                        <div id="sessions-container" style="display: flex; flex-direction: column; gap: 8px;"></div>
                     </div>
 
-                    <div style="padding: 16px; background: rgba(212, 175, 55, 0.05); border: 1px solid rgba(212, 175, 55, 0.2); border-radius: 16px;">
-                        <div style="font-size: 10px; color: var(--primary-gold); font-weight: 700; text-transform: uppercase; text-align: center; line-height: 1.6;">
-                            Professional Trading<br>
-                            <span style="color: var(--text-secondary);">Version 2.0 • 2026</span>
+                    <div style="text-align: center; padding: 20px; border-top: 1px solid var(--border-subtle); margin-top: auto;">
+                        <div style="font-size: 10px; color: var(--text-secondary); font-weight: 600; letter-spacing: 1px;">
+                            GET AND PROFIT SYSTEM<br>
+                            <span style="color: var(--primary-gold);">v2.0 New Year Edition</span>
                         </div>
                     </div>
                 </aside>
 
+                <!-- MAIN CONTENT AREA -->
                 <main>
-                    <div style="display: flex; align-items: center; justify-content: space-between; margin-bottom: 24px;">
+                    <div style="display: flex; align-items: center; justify-content: space-between; margin-bottom: 30px;">
                         <div id="tabs-container" class="tab-container"></div>
                         
-                        <button onclick="resetChecks()" style="padding: 12px 24px; background: rgba(255, 51, 102, 0.1); border: 1px solid rgba(255, 51, 102, 0.3); border-radius: 12px; color: var(--accent-red); font-size: 12px; font-weight: 700; text-transform: uppercase; cursor: pointer; transition: all 0.3s;">
+                        <button id="reset-btn" onclick="window.resetChecks()" style="padding: 12px 24px; background: rgba(248, 113, 113, 0.1); border: 1px solid rgba(248, 113, 113, 0.2); border-radius: 12px; color: var(--accent-red); font-size: 12px; font-weight: 700; text-transform: uppercase; cursor: pointer; transition: all 0.3s; display: flex; align-items: center; gap: 8px;">
                             <i class="fa-solid fa-rotate-left"></i> Reset Checklist
                         </button>
                     </div>
 
-                    <div class="glass-card" style="padding: 40px;">
-                        <div id="progress-container" class="progress-container" style="margin-bottom: 40px;">
+                    <div id="main-terminal-content" class="glass-card" style="padding: 50px; min-height: 700px;">
+                        <div id="progress-container" class="progress-container">
                             <div id="progress-bar" class="progress-bar" style="width: 0%;"></div>
                         </div>
 
+                        <!-- CHECKLIST VIEW -->
                         <div id="checklist-view">
-                            <div style="display: flex; justify-content: space-between; align-items: flex-end; margin-bottom: 40px;">
+                            <!-- STRATEGY SELECTOR -->
+                            <div id="strategy-selector" style="display: flex; gap: 12px; margin-bottom: 50px; justify-content: center;">
+                                <!-- Buttons injected by JS -->
+                            </div>
+
+                            <div style="display: flex; justify-content: space-between; align-items: flex-end; margin-bottom: 50px; padding-bottom: 30px; border-bottom: 1px solid var(--border-subtle);">
                                 <div>
-                                    <h2 id="active-title" style="font-size: 36px; font-weight: 900; text-transform: uppercase; letter-spacing: -1px; margin-bottom: 8px;">--</h2>
-                                    <p style="font-size: 14px; color: var(--text-secondary); max-width: 500px;">Verify all conditions before execution. Precision is paramount.</p>
+                                    <h2 id="active-title" style="font-size: 42px; font-weight: 800; text-transform: uppercase; letter-spacing: -1px; margin-bottom: 12px; color: var(--text-primary); text-shadow: 0 0 30px rgba(255,255,255,0.1);">--</h2>
+                                    <p style="font-size: 15px; color: var(--text-secondary); max-width: 600px;">Verify all conditions before execution. Precision is paramount.</p>
                                 </div>
                                 <div style="text-align: right;">
-                                    <div style="font-size: 10px; color: var(--text-secondary); font-weight: 700; text-transform: uppercase; margin-bottom: 8px;">Completion</div>
-                                    <div id="progress-text" style="font-size: 64px; font-weight: 900; font-family: 'JetBrains Mono', monospace; color: var(--primary-gold);">0%</div>
+                                    <div style="font-size: 12px; color: var(--text-secondary); font-weight: 700; text-transform: uppercase; margin-bottom: 8px; letter-spacing: 1px;">Completion Status</div>
+                                    <div id="progress-text" style="font-size: 64px; font-weight: 800; font-family: 'JetBrains Mono', monospace; color: var(--primary-gold); line-height: 1; text-shadow: 0 0 20px rgba(251, 191, 36, 0.4);">0%</div>
                                 </div>
                             </div>
 
-                            <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 40px;">
+                            <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 60px;">
                                 <div>
-                                    <h3 style="font-size: 11px; font-weight: 800; text-transform: uppercase; letter-spacing: 2px; color: var(--accent-green); margin-bottom: 20px;">
+                                    <h3 style="font-size: 13px; font-weight: 800; text-transform: uppercase; letter-spacing: 1.5px; color: var(--accent-green); margin-bottom: 24px; display: flex; align-items: center; gap: 10px;">
                                         <i class="fa-solid fa-microchip"></i> Technical Analysis
                                     </h3>
-                                    <div id="tech-items" style="display: flex; flex-direction: column; gap: 12px;"></div>
+                                    <div id="tech-items" style="display: flex; flex-direction: column;"></div>
                                 </div>
 
                                 <div>
-                                    <h3 style="font-size: 11px; font-weight: 800; text-transform: uppercase; letter-spacing: 2px; color: var(--accent-red); margin-bottom: 20px;">
+                                    <h3 style="font-size: 13px; font-weight: 800; text-transform: uppercase; letter-spacing: 1.5px; color: var(--accent-red); margin-bottom: 24px; display: flex; align-items: center; gap: 10px;">
                                         <i class="fa-solid fa-shield-halved"></i> Risk Management
                                     </h3>
-                                    <div id="risk-items" style="display: flex; flex-direction: column; gap: 12px;"></div>
+                                    <div id="risk-items" style="display: flex; flex-direction: column;"></div>
 
-                                    <div id="verdict-box" style="margin-top: 24px; padding: 24px; background: rgba(255, 255, 255, 0.02); border: 1px solid var(--border-subtle); border-radius: 16px;">
-                                        <p id="verdict-text" style="font-size: 14px; color: var(--text-secondary); line-height: 1.6;">Awaiting verification...</p>
+                                    <div id="verdict-box" style="margin-top: 30px; padding: 30px; background: rgba(0,0,0,0.2); border-radius: 16px; text-align: center; border: 1px solid var(--border-subtle);">
+                                        <p id="verdict-text" style="font-size: 15px; color: var(--text-secondary); font-weight: 500;">Awaiting verification...</p>
                                     </div>
                                 </div>
                             </div>
 
-                            <button id="execute-btn" class="execute-btn" disabled>
-                                <span>Protocol Incomplete</span>
-                            </button>
+                            <div style="margin-top: 50px;">
+                                <button id="execute-btn" class="execute-btn" disabled>
+                                    <span>Protocol Incomplete</span>
+                                </button>
+                            </div>
                         </div>
 
-                        <!-- CALCULATOR VIEW -->
+                        <!-- CALCULATOR VIEW (Same as before) -->
                         <div id="calc-view" class="hidden">
-                            <div style="display: flex; flex-direction: column; align-items: center; max-width: 600px; margin: 0 auto; padding: 20px;">
-                                
-                                <div style="width: 80px; height: 80px; background: linear-gradient(135deg, var(--primary-gold), #ffed4e); border-radius: 20px; display: flex; align-items: center; justify-content: center; font-size: 32px; box-shadow: 0 8px 24px rgba(212, 175, 55, 0.4); margin-bottom: 24px; color: #000;">
+                             <div style="display: flex; flex-direction: column; align-items: center; max-width: 550px; margin: 0 auto; padding-top: 30px;">
+                                <div style="width: 80px; height: 80px; background: var(--gradient-gold); border-radius: 20px; display: flex; align-items: center; justify-content: center; font-size: 36px; box-shadow: 0 10px 30px rgba(251, 191, 36, 0.3); margin-bottom: 30px; color: #000;">
                                     <i class="fa-solid fa-calculator"></i>
                                 </div>
-
-                                <h2 style="font-size: 32px; font-weight: 900; text-transform: uppercase; margin-bottom: 8px;">Position Calc</h2>
-                                <p style="font-size: 14px; color: var(--text-secondary); margin-bottom: 40px; text-align: center;">Calculate exact lot size based on risk percentage.</p>
-
+                                <h2 style="font-size: 32px; font-weight: 800; text-transform: uppercase; margin-bottom: 10px;">Position Calculator</h2>
+                                <p style="font-size: 15px; color: var(--text-secondary); margin-bottom: 50px; text-align: center;">Calculate exact lot size based on risk percentage.</p>
                                 <div style="width: 100%; display: grid; gap: 24px;">
                                     <div>
-                                        <label class="calc-label">Account Balance (USD)</label>
-                                        <input type="number" id="calc-balance" class="calc-input" placeholder="e.g. 10000">
+                                        <label class="form-label">Account Balance (USD)</label>
+                                        <input type="number" id="calc-balance" class="form-input" placeholder="e.g. 10000">
                                     </div>
-
                                     <div>
-                                        <label class="calc-label">Risk Percentage (%)</label>
-                                        <input type="number" id="calc-risk" class="calc-input" placeholder="e.g. 1.0" value="1.0">
+                                        <label class="form-label">Risk Percentage (%)</label>
+                                        <input type="number" id="calc-risk" class="form-input" placeholder="e.g. 1.0" value="1.0">
                                     </div>
-
                                     <div>
-                                        <label class="calc-label">Stop Loss (Pips)</label>
-                                        <input type="number" id="calc-sl" class="calc-input" placeholder="e.g. 15">
+                                        <label class="form-label">Stop Loss (Pips)</label>
+                                        <input type="number" id="calc-sl" class="form-input" placeholder="e.g. 15">
                                     </div>
-
                                     <div>
-                                        <label class="calc-label">Pair Type</label>
-                                        <select id="calc-pair" class="calc-input">
+                                        <label class="form-label">Pair Type</label>
+                                        <select id="calc-pair" class="form-input">
                                             <option value="10">EUR/USD, GBP/USD (Standard)</option>
                                             <option value="10">AUD/USD, NZD/USD</option>
                                             <option value="other">Other Pairs (Approx)</option>
                                         </select>
                                     </div>
-
-                                    <button onclick="calculateSize()" class="execute-btn ready" style="margin-top: 16px;">
+                                    <button onclick="window.calculateSize()" class="execute-btn ready" style="margin-top: 20px;">
                                         CALCULATE POSITION
                                     </button>
                                 </div>
-
-                                <div id="calc-result" style="width: 100%; margin-top: 32px; padding: 32px; background: rgba(255, 255, 255, 0.03); border: 1px solid var(--border-subtle); border-radius: 20px; display: none; animation: slideUp 0.3s ease-out;">
-                                    <div style="display: flex; justify-content: space-between; align-items: flex-end; border-bottom: 1px solid var(--border-subtle); padding-bottom: 20px; margin-bottom: 20px;">
+                                <div id="calc-result" style="width: 100%; margin-top: 40px; padding: 30px; background: rgba(255,255,255,0.03); border-radius: 20px; display: none; border: 1px solid var(--border-subtle);">
+                                    <div style="display: flex; justify-content: space-between; align-items: flex-end; border-bottom: 1px solid var(--border-subtle); padding-bottom: 24px; margin-bottom: 24px;">
                                         <div>
-                                            <div style="font-size: 12px; font-weight: 700; color: var(--text-secondary); text-transform: uppercase;">Risk Amount</div>
-                                            <div id="res-risk-amt" style="font-size: 24px; font-weight: 700; color: var(--accent-red); font-family: 'JetBrains Mono', monospace;">$0.00</div>
+                                            <div style="font-size: 12px; font-weight: 700; color: var(--text-secondary); text-transform: uppercase; margin-bottom: 6px;">Risk Amount</div>
+                                            <div id="res-risk-amt" style="font-size: 28px; font-weight: 800; color: var(--accent-red); font-family: 'JetBrains Mono', monospace;">$0.00</div>
                                         </div>
                                         <div style="text-align: right;">
-                                            <div style="font-size: 12px; font-weight: 700; color: var(--text-secondary); text-transform: uppercase;">Units</div>
-                                            <div id="res-units" style="font-size: 16px; color: var(--text-primary);">0</div>
+                                            <div style="font-size: 12px; font-weight: 700; color: var(--text-secondary); text-transform: uppercase; margin-bottom: 6px;">Units</div>
+                                            <div id="res-units" style="font-size: 18px; color: var(--text-primary); font-weight: 600;">0</div>
                                         </div>
                                     </div>
                                     <div style="text-align: center;">
-                                        <div style="font-size: 13px; font-weight: 800; color: var(--primary-gold); text-transform: uppercase; letter-spacing: 2px; margin-bottom: 8px;">Recommended Lot Size</div>
-                                        <div id="res-lots" style="font-size: 64px; font-weight: 900; line-height: 1; color: #fff; text-shadow: 0 0 30px rgba(255, 255, 255, 0.3);">0.00</div>
-                                        <div style="margin-top: 8px; font-size: 12px; color: var(--text-secondary);">Standard Lots</div>
+                                        <div style="font-size: 13px; font-weight: 800; color: var(--primary-gold); text-transform: uppercase; letter-spacing: 1.5px; margin-bottom: 10px;">Recommended Lot Size</div>
+                                        <div id="res-lots" style="font-size: 72px; font-weight: 800; line-height: 1; color: #fff; text-shadow: 0 0 30px rgba(255,255,255,0.2);">0.00</div>
+                                        <div style="margin-top: 12px; font-size: 13px; color: var(--text-secondary);">Standard Lots</div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- JOURNAL VIEW -->
+                        <div id="journal-view" class="hidden">
+                            <!-- VIEW 1: ACCOUNTS LIST -->
+                            <div id="journal-accounts-list">
+                                <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 40px;">
+                                    <h2 style="font-size: 28px; font-weight: 800; color: #fff; text-transform: uppercase;">Your Funded Accounts</h2>
+                                    <button onclick="window.openModal('new-account-modal')" class="execute-btn ready" style="width: auto; padding: 12px 30px; font-size: 13px;">
+                                        + Add Account
+                                    </button>
+                                </div>
+                                <div id="accounts-grid" style="display: grid; grid-template-columns: repeat(auto-fill, minmax(300px, 1fr)); gap: 24px;">
+                                    <!-- Accounts will load here -->
+                                </div>
+                            </div>
+
+                            <!-- VIEW 2: SINGLE ACCOUNT DETAILS -->
+                            <div id="journal-account-details" style="display: none;">
+                                <!-- Header -->
+                                <div style="display: flex; align-items: center; gap: 24px; margin-bottom: 40px; border-bottom: 1px solid var(--border-subtle); padding-bottom: 30px;">
+                                    <button onclick="window.showAccountsList()" class="icon-btn">
+                                        <i class="fa-solid fa-arrow-left"></i>
+                                    </button>
+                                    <div style="flex: 1;">
+                                        <div id="active-acc-name" style="font-size: 13px; color: var(--text-secondary); text-transform: uppercase; font-weight: 700; letter-spacing: 1px;">FTMO Account</div>
+                                        <div id="active-acc-balance" style="font-size: 36px; font-weight: 800; color: var(--primary-gold); font-family: 'JetBrains Mono', monospace; text-shadow: 0 0 20px rgba(251, 191, 36, 0.3);">$100,000.00</div>
+                                    </div>
+                                    <button onclick="window.resetBalance()" style="padding: 12px 24px; border: 1px solid var(--border-subtle); border-radius: 10px; color: var(--text-secondary); background: rgba(255,255,255,0.05); cursor: pointer; font-size: 12px; text-transform: uppercase; font-weight: 700; transition: all 0.2s;">
+                                        <i class="fa-solid fa-rotate-right mr-2"></i> Reset
+                                    </button>
+                                </div>
+
+                                <!-- Internal Tabs -->
+                                <div style="display: flex; gap: 10px; margin-bottom: 40px;">
+                                    <button id="tab-running" class="inner-tab active" onclick="window.switchInnerTab('running')">Running Trades</button>
+                                    <button id="tab-history" class="inner-tab" onclick="window.switchInnerTab('history')">Trade History</button>
+                                </div>
+
+                                <!-- Running Trades Content -->
+                                <div id="content-running">
+                                    <div style="display: grid; grid-template-columns: 350px 1fr; gap: 50px;">
+                                        <!-- Entry Form -->
+                                        <div class="glass-card" style="padding: 30px; height: fit-content; background: rgba(0,0,0,0.3);">
+                                            <h3 style="font-size: 16px; font-weight: 800; text-transform: uppercase; letter-spacing: 1px; color: var(--primary-gold); margin-bottom: 24px;">
+                                                Log New Trade
+                                            </h3>
+                                            <div style="display: flex; flex-direction: column; gap: 20px;">
+                                                <input type="text" id="j-pair" class="form-input" placeholder="Pair (e.g. EURUSD)" style="text-transform: uppercase;">
+                                                <select id="j-direction" class="form-input">
+                                                    <option value="LONG">BUY / LONG</option>
+                                                    <option value="SHORT">SELL / SHORT</option>
+                                                </select>
+                                                <textarea id="j-notes" class="form-input" rows="4" placeholder="Entry Reason / Notes..."></textarea>
+                                                
+                                                <div>
+                                                    <label class="form-label">Screenshot (Optional)</label>
+                                                    <input type="file" id="j-image" accept="image/*" class="form-input" style="font-size: 12px;">
+                                                </div>
+
+                                                <button onclick="window.addRunningTrade()" id="btn-save-journal" class="execute-btn ready" style="padding: 16px; font-size: 13px;">
+                                                    LOG TRADE
+                                                </button>
+                                            </div>
+                                        </div>
+
+                                        <!-- Running List -->
+                                        <div>
+                                            <h3 style="font-size: 14px; font-weight: 800; text-transform: uppercase; letter-spacing: 1px; color: var(--text-secondary); margin-bottom: 24px;">
+                                                Active Positions
+                                            </h3>
+                                            <div id="running-list" style="display: flex; flex-direction: column; gap: 20px; max-height: 700px; overflow-y: auto;">
+                                                <!-- Items go here -->
+                                            </div>
+                                        </div>
                                     </div>
                                 </div>
 
+                                <!-- History Content -->
+                                <div id="content-history" style="display: none;">
+                                    <div id="history-list" style="display: flex; flex-direction: column; gap: 20px; max-height: 700px; overflow-y: auto;">
+                                        <!-- History Items go here -->
+                                    </div>
+                                </div>
+
+                            </div>
+                        </div>
+
+                        <!-- ANALYSIS VIEW -->
+                        <div id="analysis-view" class="hidden" style="height: 800px; width: 100%; display: flex; flex-direction: column;">
+                             <div style="height: 100%; display: flex; flex-direction: column;">
+                                <!-- Symbol Input Bar -->
+                                <div style="display: flex; gap: 16px; padding: 20px; border-bottom: 1px solid var(--border-subtle); background: var(--bg-glass); border-radius: 20px 20px 0 0;">
+                                    <input type="text" id="chart-symbol-input" class="form-input" placeholder="Symbol (e.g. BTCUSD)" style="font-size: 14px; padding: 12px; width: 280px;">
+                                    <button onclick="window.saveSymbol()" class="execute-btn ready" style="width: auto; padding: 12px 30px; font-size: 13px;">LOAD CHART</button>
+                                    <span id="save-status" style="font-size: 13px; color: var(--accent-green); display: flex; align-items: center; margin-left: 10px; opacity: 0; transition: opacity 0.3s;">
+                                        <i class="fa-solid fa-check mr-2"></i> Saved
+                                    </span>
+                                </div>
+                                
+                                <!-- Widget Container -->
+                                <div style="flex: 1; width: 100%; position: relative;">
+                                    <div class="tradingview-widget-container" style="height:100%;width:100%">
+                                        <div id="tradingview_b239c" style="height:100%;width:100%"></div>
+                                    </div>
+                                </div>
                             </div>
                         </div>
 
                     </div>
                 </main>
             </div>
+
+            <!-- AI ASSISTANT VIEW (NEW) -->
+            <div id="main-ai" class="app-grid hidden">
+                 <div class="glass-card" style="grid-column: 1 / -1; padding: 80px 50px; text-align: center; min-height: 600px; display: flex; flex-direction: column; align-items: center; justify-content: center;">
+                     <div style="width: 100px; height: 100px; background: var(--gradient-gold); border-radius: 50%; display: inline-flex; align-items: center; justify-content: center; font-size: 48px; color: #000; margin-bottom: 30px; box-shadow: 0 0 50px rgba(251, 191, 36, 0.4);">
+                        <i class="fa-solid fa-wand-magic-sparkles"></i>
+                    </div>
+                    <h2 style="font-size: 42px; font-weight: 800; color: #fff; margin-bottom: 16px; text-transform: uppercase; letter-spacing: -1px;">G & P AI ASSISTANT</h2>
+                    <p style="color: var(--text-secondary); max-width: 600px; font-size: 18px; margin-bottom: 40px; line-height: 1.6;">Our advanced artificial intelligence models are currently training on market data. Predictive analytics and automated insights will be available soon.</p>
+                    <div style="padding: 12px 24px; background: rgba(255,255,255,0.05); border-radius: 100px; border: 1px solid var(--border-subtle); color: var(--text-secondary); font-size: 13px; font-weight: 700; text-transform: uppercase; letter-spacing: 1px;">
+                        Status: <span style="color: var(--primary-gold);">Development Phase</span>
+                    </div>
+                </div>
+            </div>
         </div>
     </div>
 
-    <script>
-        const setups = {
-            hsTab: { 
+    <!-- FIREBASE SETUP & APP LOGIC -->
+    <script type="module">
+        // ... existing imports ...
+        import { initializeApp } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-app.js";
+        import { getAuth, signInAnonymously, onAuthStateChanged, signOut, signInWithCustomToken, signInWithEmailAndPassword, createUserWithEmailAndPassword, sendPasswordResetEmail } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-auth.js";
+        import { getFirestore, collection, addDoc, onSnapshot, query, orderBy, deleteDoc, doc, updateDoc, getDoc, getDocs, setDoc } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-firestore.js";
+        import { getAnalytics } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-analytics.js";
+
+        // ... existing config code ...
+        let firebaseConfig;
+        if (typeof __firebase_config !== 'undefined') {
+             firebaseConfig = JSON.parse(__firebase_config);
+        } else {
+             console.warn("Using placeholder config. Auth may fail if not in Canvas.");
+             firebaseConfig = {
+                apiKey: "AIzaSyBeFMOrFx4wY4mSaMh7sz4BnLV-_ME2D2c",
+                authDomain: "get-and-profit.firebaseapp.com",
+                projectId: "get-and-profit",
+                storageBucket: "get-and-profit.firebasestorage.app",
+                messagingSenderId: "189133539378",
+                appId: "1:189133539378:web:da406bdc68698e8e9d142b",
+                measurementId: "G-2E8NJ2PGK5"
+             };
+        }
+        
+        const app = initializeApp(firebaseConfig);
+        const analytics = getAnalytics(app);
+        const auth = getAuth(app);
+        const db = getFirestore(app);
+        const appId = typeof __app_id !== 'undefined' ? __app_id : 'default-app-id';
+
+        let currentUser = null;
+        let isLoginMode = true;
+        let activeAccountId = null;
+        let activeAccountData = null;
+        let tradeUnsubscribe = null;
+        let allAccounts = []; 
+        let balanceChartInstance = null;
+        let allocationChartInstance = null;
+        let currentAnalysisAccountId = null;
+        let currentChartWidget = null;
+        let strategyUnlocked = false; 
+
+        // ... existing updateCountdown ...
+        function updateCountdown() {
+            const targetDate = new Date("January 1, 2026 00:00:00").getTime();
+            const now = new Date().getTime();
+            const distance = targetDate - now;
+
+            if (distance < 0) {
+                if(document.getElementById("ny-countdown")) document.getElementById("ny-countdown").innerText = "HAPPY NEW YEAR!";
+                return;
+            }
+
+            const days = Math.floor(distance / (1000 * 60 * 60 * 24));
+            const hours = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+            const minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
+            const seconds = Math.floor((distance % (1000 * 60)) / 1000);
+
+            if(document.getElementById("ny-countdown")) {
+                document.getElementById("ny-countdown").innerText = `${days}d ${hours}h ${minutes}m ${seconds}s`;
+            }
+        }
+
+        setInterval(updateCountdown, 1000);
+
+        // ... existing window functions ...
+        window.openModal = (id) => document.getElementById(id).style.display = 'flex';
+        window.closeModal = (id) => document.getElementById(id).style.display = 'none';
+
+        window.openProfileModal = async () => {
+            if(!currentUser) return;
+            document.getElementById('prof-email').innerText = currentUser.email || 'Anonymous';
+            document.getElementById('prof-uid').innerText = currentUser.uid;
+            document.getElementById('prof-created').innerText = currentUser.metadata.creationTime ? new Date(currentUser.metadata.creationTime).toLocaleDateString() : '--';
+            document.getElementById('prof-lastlogin').innerText = currentUser.metadata.lastSignInTime ? new Date(currentUser.metadata.lastSignInTime).toLocaleString() : '--';
+            try {
+                const docSnap = await getDoc(doc(db, 'artifacts', appId, 'users', currentUser.uid, 'settings', 'general'));
+                if(docSnap.exists() && docSnap.data().tradingViewId) {
+                    document.getElementById('tv-id-input').value = docSnap.data().tradingViewId;
+                    document.getElementById('tv-id-status').style.display = 'block';
+                }
+            } catch(e) {}
+            window.openModal('profile-modal');
+        };
+        
+        window.saveTradingViewID = async () => {
+             const tvId = document.getElementById('tv-id-input').value;
+             if(!currentUser) return;
+             try {
+                await setDoc(doc(db, 'artifacts', appId, 'users', currentUser.uid, 'settings', 'general'), {
+                    tradingViewId: tvId
+                }, { merge: true });
+                document.getElementById('tv-id-status').innerText = "Linked Successfully";
+                document.getElementById('tv-id-status').style.display = 'block';
+             } catch(e) { alert("Error saving ID: " + e.message); }
+        };
+
+        window.toggleAuthMode = () => {
+            isLoginMode = !isLoginMode;
+            document.getElementById('auth-title').innerText = isLoginMode ? 'Access Terminal' : 'New Trader Access';
+            document.getElementById('auth-desc').innerText = isLoginMode ? 'Login to access your trading journal.' : 'Create secure account for data syncing.';
+            document.getElementById('btn-login').innerText = isLoginMode ? 'Login' : 'Create Account';
+            document.getElementById('btn-toggle-auth').innerText = isLoginMode ? 'No Account? Create One' : 'Have Account? Login';
+        };
+
+        window.handleAuth = async (e) => {
+            e.preventDefault();
+            const email = document.getElementById('auth-email').value;
+            const password = document.getElementById('auth-password').value;
+            const btn = document.getElementById('btn-login');
+            const errDiv = document.getElementById('auth-error');
+            
+            btn.innerText = 'PROCESSING...';
+            btn.disabled = true;
+            errDiv.style.display = 'none';
+
+            try {
+                if (typeof __initial_auth_token !== 'undefined' && __initial_auth_token) {
+                    await signInWithCustomToken(auth, __initial_auth_token);
+                } else {
+                    if (isLoginMode) {
+                        await signInWithEmailAndPassword(auth, email, password);
+                    } else {
+                        await createUserWithEmailAndPassword(auth, email, password);
+                    }
+                }
+            } catch (error) {
+                console.error("Auth Error:", error);
+                errDiv.innerText = error.message;
+                errDiv.style.display = 'block';
+                btn.innerText = isLoginMode ? 'Login' : 'Create Account';
+                btn.disabled = false;
+            }
+        };
+
+        window.handlePasswordReset = async () => {
+            const email = document.getElementById('reset-email').value;
+            if (!email) return alert("Please enter your email.");
+            try {
+                await sendPasswordResetEmail(auth, email);
+                alert("Password reset email sent! Check your inbox.");
+                window.closeModal('reset-password-modal');
+                document.getElementById('reset-email').value = '';
+            } catch (error) { alert("Error: " + error.message); }
+        };
+
+        window.logout = () => {
+            signOut(auth);
+            location.reload();
+        };
+
+        // --- DASHBOARD NAVIGATION ---
+        window.showDashboard = () => {
+            document.getElementById('main-dashboard').style.display = 'block';
+            document.getElementById('main-terminal').style.display = 'none';
+            document.getElementById('main-ai').style.display = 'none';
+            
+            document.getElementById('nav-dash').classList.add('active');
+            document.getElementById('nav-term').classList.remove('active');
+            document.getElementById('nav-ai').classList.remove('active');
+            renderDashboard(); 
+        };
+
+        window.showTerminal = () => {
+            document.getElementById('main-dashboard').style.display = 'none';
+            document.getElementById('main-terminal').style.display = 'grid'; 
+            document.getElementById('main-ai').style.display = 'none';
+
+            document.getElementById('nav-dash').classList.remove('active');
+            document.getElementById('nav-term').classList.add('active');
+            document.getElementById('nav-ai').classList.remove('active');
+            
+            if(activeNav) window.switchNav(activeNav);
+            else window.switchNav('strategy');
+        };
+
+        window.showAI = () => {
+            // Opens the AI tool in a new tab as requested
+            window.open('https://nilukshanaayodaya-ops.github.io/G-PMASTERAI/', '_blank');
+        };
+
+        onAuthStateChanged(auth, (user) => {
+            currentUser = user;
+            if (user) {
+                document.getElementById('auth-overlay').style.display = 'none';
+                
+                const hr = new Date().getHours();
+                let greet = 'Good Morning';
+                if(hr >= 12) greet = 'Good Afternoon';
+                if(hr >= 17) greet = 'Good Evening';
+                if(document.getElementById('dash-greeting')) {
+                    document.getElementById('dash-greeting').innerText = `${greet}, Trader`;
+                }
+
+                showDashboard();
+
+                initAccountsListener();
+                window.loadSymbol(); 
+            } else {
+                document.getElementById('auth-overlay').style.display = 'flex';
+                document.getElementById('btn-login').disabled = false;
+                isLoginMode = true;
+                if(document.getElementById('btn-login')) document.getElementById('btn-login').innerText = 'Login';
+            }
+        });
+
+        function initAccountsListener() {
+            if (!currentUser) return;
+            const q = collection(db, 'artifacts', appId, 'users', currentUser.uid, 'accounts');
+            onSnapshot(q, (snapshot) => {
+                allAccounts = [];
+                snapshot.forEach(doc => allAccounts.push({ id: doc.id, ...doc.data() }));
+                renderAccountsList(allAccounts); 
+                renderDashboard(); 
+                
+                if(activeAccountId) {
+                    const updated = allAccounts.find(a => a.id === activeAccountId);
+                    if(updated) {
+                        activeAccountData = updated;
+                        updateAccountHeader();
+                    }
+                }
+            });
+        }
+
+        // New Helper for Number Count Animation
+        function animateValue(id, start, end, duration, prefix = '', suffix = '') {
+            const obj = document.getElementById(id);
+            if(!obj) return;
+            let startTimestamp = null;
+            const step = (timestamp) => {
+                if (!startTimestamp) startTimestamp = timestamp;
+                const progress = Math.min((timestamp - startTimestamp) / duration, 1);
+                // Handle float vs int
+                let value;
+                if (Number.isInteger(end)) {
+                     value = Math.floor(progress * (end - start) + start);
+                     obj.innerHTML = `${prefix}${value.toLocaleString()}${suffix}`;
+                } else {
+                     value = (progress * (end - start) + start).toFixed(2);
+                     obj.innerHTML = `${prefix}${value}${suffix}`;
+                }
+                
+                if (progress < 1) {
+                    window.requestAnimationFrame(step);
+                } else {
+                    // Final set to ensure accuracy
+                    obj.innerHTML = `${prefix}${end.toLocaleString()}${suffix}`;
+                }
+            };
+            window.requestAnimationFrame(step);
+        }
+
+        // Calculate and Render Dashboard Stats
+        function renderDashboard() {
+            if(!allAccounts.length) {
+                document.getElementById('dash-total-equity').innerText = "$0.00";
+                document.getElementById('dash-total-pnl').innerText = "$0.00";
+                document.getElementById('dash-total-growth').innerText = "0%";
+                document.getElementById('dash-accounts-grid').innerHTML = '<div style="color:var(--text-secondary);">No accounts found. Create one to get started.</div>';
+                return;
+            }
+
+            let totalEq = 0;
+            let totalPnL = 0;
+            let totalInitial = 0;
+            let accountLabels = [];
+            let accountBalances = [];
+            let healthBars = '';
+
+            // Using mapped array to generate HTML with delay
+            const accountsHTML = allAccounts.map((acc, index) => {
+                totalEq += acc.currentBalance;
+                totalInitial += acc.initialBalance;
+                const pnl = acc.currentBalance - acc.initialBalance;
+                totalPnL += pnl;
+
+                accountLabels.push(acc.name);
+                accountBalances.push(acc.currentBalance);
+                
+                const pct = (acc.currentBalance / acc.initialBalance) * 100;
+                let color = 'var(--text-secondary)';
+                if(pct > 100) color = 'var(--accent-green)';
+                else if(pct < 100) color = 'var(--accent-red)';
+                
+                healthBars += `
+                    <div style="margin-bottom: 12px;">
+                        <div style="display:flex; justify-content:space-between; font-size:12px; margin-bottom:4px;">
+                            <span style="font-weight:600;">${acc.name}</span>
+                            <span style="color:${color};">${pct.toFixed(2)}%</span>
+                        </div>
+                        <div class="health-bar-container">
+                            <div class="health-bar" style="width:${Math.min(pct, 100)}%; background:${color};"></div>
+                        </div>
+                    </div>
+                `;
+
+                // Add delay style inline for staggered entrance
+                return `
+                <div class="dash-card" style="cursor:pointer; animation-delay: ${0.1 * index}s" onclick="window.openAccountFromDash('${acc.id}')">
+                    <div style="font-size: 12px; font-weight: 700; color: var(--text-secondary); text-transform: uppercase; margin-bottom: 8px;">${acc.name}</div>
+                    <div style="font-size: 24px; font-weight: 800; color: #fff; font-family: 'JetBrains Mono';">$${acc.currentBalance.toLocaleString()}</div>
+                    <div style="margin-top: 12px; font-size: 13px; font-weight: 700; color: ${pnl >= 0 ? 'var(--accent-green)' : 'var(--accent-red)'};">
+                        ${pnl >= 0 ? '+' : ''}$${pnl.toLocaleString()}
+                    </div>
+                </div>
+                `;
+            }).join('');
+
+            // Animate Main Numbers
+            animateValue("dash-total-equity", 0, totalEq, 1500, "$");
+            animateValue("dash-total-pnl", 0, totalPnL, 1500, totalPnL >= 0 ? "+$" : "-$");
+            
+            document.getElementById('dash-total-pnl').style.color = totalPnL >= 0 ? 'var(--accent-green)' : 'var(--accent-red)';
+            
+            let growth = 0;
+            if(totalInitial > 0) {
+                 growth = ((totalEq - totalInitial) / totalInitial) * 100;
+            }
+            animateValue("dash-total-growth", 0, growth, 1500, growth >= 0 ? "+" : "", "%");
+            document.getElementById('dash-total-growth').style.color = growth >= 0 ? 'var(--primary-gold)' : 'var(--accent-red)';
+
+            document.getElementById('dash-accounts-grid').innerHTML = accountsHTML;
+            document.getElementById('health-bars-container').innerHTML = healthBars;
+
+            // Render Allocation Chart
+            if(allocationChartInstance) allocationChartInstance.destroy();
+            const ctx = document.getElementById('allocationChart').getContext('2d');
+            allocationChartInstance = new Chart(ctx, {
+                type: 'doughnut',
+                data: {
+                    labels: accountLabels,
+                    datasets: [{
+                        data: accountBalances,
+                        backgroundColor: ['#fbbf24', '#34d399', '#f87171', '#3b82f6', '#a855f7'],
+                        borderWidth: 0
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    animation: {
+                        animateScale: true,
+                        animateRotate: true,
+                        duration: 2000,
+                        easing: 'easeOutQuart'
+                    },
+                    plugins: {
+                        legend: { position: 'right', labels: { color: '#9ca3af', font: {size: 11} } }
+                    },
+                    cutout: '70%'
+                }
+            });
+        }
+
+        // Session Monitor Logic
+        function updateSessionMonitor() {
+            const hr = new Date().getUTCHours();
+            const min = new Date().getUTCMinutes();
+            
+            let active = "Asian Session";
+            let vol = "Low";
+            let volColor = "var(--text-secondary)";
+            let endHr = 9; // Asia closes 9 UTC
+
+            if(hr >= 7 && hr < 8) { active = "Pre-London"; vol = "Medium"; volColor = "var(--primary-gold)"; endHr=8; }
+            else if(hr >= 8 && hr < 12) { active = "London Open"; vol = "High"; volColor = "var(--accent-green)"; endHr=17; }
+            else if(hr >= 12 && hr < 16) { active = "NY/London Overlap"; vol = "Extreme"; volColor = "var(--accent-red)"; endHr=17; }
+            else if(hr >= 16 && hr < 21) { active = "New York Session"; vol = "High"; volColor = "var(--accent-green)"; endHr=22; }
+            else if(hr >= 22) { active = "Asian Session"; vol = "Low"; volColor = "var(--text-secondary)"; endHr=9; }
+
+            const display = document.getElementById('session-name-display');
+            if(display) display.innerText = active;
+            
+            const vDisplay = document.getElementById('volatility-display');
+            if(vDisplay) {
+                vDisplay.innerText = vol;
+                vDisplay.style.color = volColor;
+            }
+        }
+        setInterval(updateSessionMonitor, 60000); // Check every minute
+
+        window.openAccountFromDash = (id) => {
+            window.showTerminal(); 
+            window.switchNav('journal'); 
+            window.openAccount(id); 
+        };
+
+        function renderAccountsList(accounts) {
+            const grid = document.getElementById('accounts-grid');
+            if (accounts.length === 0) {
+                grid.innerHTML = `<div style="color:var(--text-secondary); grid-column: 1/-1; text-align:center;">No accounts added. Add one to start journaling.</div>`;
+                return;
+            }
+            grid.innerHTML = accounts.map(acc => `
+                <div class="glass-card" style="padding: 30px; cursor: pointer; background: rgba(255,255,255,0.02);" onclick="window.openAccount('${acc.id}')" onmouseover="this.style.borderColor='rgba(251, 191, 36, 0.5)'" onmouseout="this.style.borderColor='var(--border-subtle)'">
+                    <button onclick="event.stopPropagation(); window.deleteAccount('${acc.id}')" style="position: absolute; top: 16px; right: 16px; color: var(--text-secondary); background: none; border: none; cursor: pointer; z-index: 10;" title="Delete Account">
+                        <i class="fa-solid fa-trash hover:text-red-500 transition-colors"></i>
+                    </button>
+                    <button onclick="event.stopPropagation(); window.analyzeAccount('${acc.id}')" style="position: absolute; top: 16px; right: 48px; color: var(--text-secondary); background: none; border: none; cursor: pointer; z-index: 10;" title="Account Analysis">
+                        <i class="fa-solid fa-chart-pie hover:text-green-400 transition-colors"></i>
+                    </button>
+                    <div style="font-size: 13px; font-weight: 800; color: var(--text-secondary); margin-bottom: 12px; text-transform: uppercase; padding-right: 24px; letter-spacing: 1px;">${acc.name}</div>
+                    <div style="font-size: 32px; font-weight: 800; color: var(--text-primary); font-family: 'JetBrains Mono', monospace;">$${acc.currentBalance.toLocaleString()}</div>
+                    <div style="font-size: 12px; font-weight: 700; margin-top: 12px; padding: 6px 12px; border-radius: 8px; display: inline-block; background: ${acc.currentBalance >= acc.initialBalance ? 'rgba(52, 211, 153, 0.1)' : 'rgba(248, 113, 113, 0.1)'}; color: ${acc.currentBalance >= acc.initialBalance ? 'var(--accent-green)' : 'var(--accent-red)'};">
+                        ${((acc.currentBalance - acc.initialBalance) >= 0 ? '+' : '')}${(acc.currentBalance - acc.initialBalance).toLocaleString()} PnL
+                    </div>
+                </div>
+            `).join('');
+        }
+
+        window.analyzeAccount = async (id) => {
+            currentAnalysisAccountId = id;
+            const account = allAccounts.find(a => a.id === id);
+            if (!account) return;
+
+            const q = query(collection(db, 'artifacts', appId, 'users', currentUser.uid, 'accounts', id, 'trades'), orderBy('timestamp', 'asc'));
+            const snapshot = await getDocs(q);
+            const trades = [];
+            snapshot.forEach(doc => trades.push(doc.data()));
+
+            const closedTrades = trades.filter(t => t.status === 'CLOSED');
+
+            const totalTrades = closedTrades.length;
+            const wins = closedTrades.filter(t => t.outcome === 'WIN').length;
+            const losses = closedTrades.filter(t => t.outcome === 'LOSS').length;
+            const winRate = totalTrades > 0 ? Math.round((wins / totalTrades) * 100) : 0;
+            
+            let totalPnL = 0;
+            let grossProfit = 0;
+            let grossLoss = 0;
+            let balanceHistory = [account.initialBalance];
+            let tradeLabels = ['Start'];
+
+            closedTrades.forEach((t, index) => {
+                totalPnL += t.pnl;
+                if(t.pnl > 0) grossProfit += t.pnl;
+                if(t.pnl < 0) grossLoss += Math.abs(t.pnl);
+                balanceHistory.push(account.initialBalance + totalPnL);
+                tradeLabels.push(`Trade ${index + 1}`);
+            });
+
+            const profitFactor = grossLoss > 0 ? (grossProfit / grossLoss).toFixed(2) : grossProfit > 0 ? "∞" : "0.00";
+
+            document.getElementById('ana-acc-name').innerText = account.name;
+            document.getElementById('ana-winrate').innerText = `${winRate}%`;
+            document.getElementById('ana-total').innerText = totalTrades;
+            document.getElementById('ana-pnl').innerText = `${totalPnL >= 0 ? '+' : ''}$${totalPnL.toLocaleString()}`;
+            document.getElementById('ana-pnl').style.color = totalPnL >= 0 ? 'var(--accent-green)' : 'var(--accent-red)';
+            document.getElementById('ana-pf').innerText = profitFactor;
+
+            window.openModal('analysis-modal');
+
+            const ctx = document.getElementById('balanceChart').getContext('2d');
+            if(balanceChartInstance) { balanceChartInstance.destroy(); }
+
+            balanceChartInstance = new Chart(ctx, {
+                type: 'line',
+                data: {
+                    labels: tradeLabels,
+                    datasets: [{
+                        label: 'Balance Growth',
+                        data: balanceHistory,
+                        borderColor: '#fbbf24',
+                        backgroundColor: 'rgba(251, 191, 36, 0.1)',
+                        borderWidth: 3,
+                        fill: true,
+                        tension: 0.4,
+                        pointRadius: 5,
+                        pointBackgroundColor: '#fff',
+                        pointBorderColor: '#fbbf24',
+                        pointBorderWidth: 2
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    plugins: { legend: { display: false } },
+                    scales: {
+                        y: { grid: { color: 'rgba(255, 255, 255, 0.05)' }, ticks: { color: '#9ca3af', font: {family: 'JetBrains Mono'} } },
+                        x: { grid: { display: false }, ticks: { display: false } }
+                    }
+                }
+            });
+        };
+
+        window.resetAnalysis = async () => {
+            if(!currentAnalysisAccountId) return;
+            if(!confirm("Are you sure? This will RESET balance to Initial Amount and DELETE ALL trade history.")) return;
+
+            try {
+                const accountRef = doc(db, 'artifacts', appId, 'users', currentUser.uid, 'accounts', currentAnalysisAccountId);
+                const accountSnap = await getDoc(accountRef);
+                if(!accountSnap.exists()) return alert("Account not found.");
+                const initialBal = accountSnap.data().initialBalance;
+
+                await updateDoc(accountRef, { currentBalance: initialBal });
+
+                const tradesRef = collection(db, 'artifacts', appId, 'users', currentUser.uid, 'accounts', currentAnalysisAccountId, 'trades');
+                const tradesSnap = await getDocs(tradesRef);
+                
+                const deletePromises = [];
+                tradesSnap.forEach(tDoc => {
+                    deletePromises.push(deleteDoc(doc(db, 'artifacts', appId, 'users', currentUser.uid, 'accounts', currentAnalysisAccountId, 'trades', tDoc.id)));
+                });
+                await Promise.all(deletePromises);
+
+                window.analyzeAccount(currentAnalysisAccountId);
+                alert("Account Reset Successfully.");
+            } catch(e) { console.error(e); alert("Error resetting account: " + e.message); }
+        };
+
+        window.createAccount = async () => {
+            const name = document.getElementById('acc-name').value;
+            const bal = parseFloat(document.getElementById('acc-balance').value);
+            if (!name || isNaN(bal)) return alert("Invalid Input");
+
+            try {
+                await addDoc(collection(db, 'artifacts', appId, 'users', currentUser.uid, 'accounts'), {
+                    name: name,
+                    initialBalance: bal,
+                    currentBalance: bal,
+                    timestamp: Date.now()
+                });
+                window.closeModal('new-account-modal');
+                document.getElementById('acc-name').value = '';
+                document.getElementById('acc-balance').value = '';
+            } catch (e) { alert("Error: " + e.message); }
+        };
+
+        window.deleteAccount = async (id) => {
+            if (!confirm("Delete this account permanently? Data cannot be recovered.")) return;
+            try {
+                await deleteDoc(doc(db, 'artifacts', appId, 'users', currentUser.uid, 'accounts', id));
+            } catch (e) { alert("Error deleting account: " + e.message); }
+        };
+
+        window.openAccount = (id) => {
+            activeAccountId = id;
+            activeAccountData = allAccounts.find(a => a.id === id);
+            
+            if (!activeAccountData) { console.error("Account not found"); return; }
+
+            document.getElementById('journal-accounts-list').style.display = 'none';
+            document.getElementById('journal-account-details').style.display = 'block';
+            updateAccountHeader();
+            window.switchInnerTab('running');
+
+            if(tradeUnsubscribe) tradeUnsubscribe();
+            const q = collection(db, 'artifacts', appId, 'users', currentUser.uid, 'accounts', activeAccountId, 'trades');
+            tradeUnsubscribe = onSnapshot(q, (snapshot) => {
+                const trades = [];
+                snapshot.forEach(doc => trades.push({ id: doc.id, ...doc.data() }));
+                trades.sort((a,b) => b.timestamp - a.timestamp);
+                renderTrades(trades);
+            });
+        };
+
+        window.showAccountsList = () => {
+            activeAccountId = null;
+            activeAccountData = null;
+            if(tradeUnsubscribe) tradeUnsubscribe();
+            document.getElementById('journal-accounts-list').style.display = 'block';
+            document.getElementById('journal-account-details').style.display = 'none';
+        };
+
+        function updateAccountHeader() {
+            if(!activeAccountData) return;
+            document.getElementById('active-acc-name').innerText = activeAccountData.name;
+            document.getElementById('active-acc-balance').innerText = `$${activeAccountData.currentBalance.toLocaleString()}`;
+        }
+
+        window.resetBalance = async () => {
+            if(!activeAccountId || !confirm("Are you sure? This will RESET balance to Initial Amount and DELETE ALL trade history.")) return;
+            try {
+                const accountRef = doc(db, 'artifacts', appId, 'users', currentUser.uid, 'accounts', activeAccountId);
+                const accountSnap = await getDoc(accountRef);
+                if(!accountSnap.exists()) return;
+                const initialBal = accountSnap.data().initialBalance;
+
+                await updateDoc(accountRef, { currentBalance: initialBal });
+
+                const tradesRef = collection(db, 'artifacts', appId, 'users', currentUser.uid, 'accounts', activeAccountId, 'trades');
+                const tradesSnap = await getDocs(tradesRef);
+                const deletePromises = [];
+                tradesSnap.forEach(tDoc => {
+                    deletePromises.push(deleteDoc(doc(db, 'artifacts', appId, 'users', currentUser.uid, 'accounts', activeAccountId, 'trades', tDoc.id)));
+                });
+                await Promise.all(deletePromises);
+            } catch(e) { alert(e.message); }
+        };
+
+        // --- TRADE LOGIC ---
+
+        window.switchInnerTab = (tab) => {
+            document.querySelectorAll('.inner-tab').forEach(t => t.classList.remove('active'));
+            document.getElementById(`tab-${tab}`).classList.add('active');
+            document.getElementById('content-running').style.display = tab === 'running' ? 'block' : 'none';
+            document.getElementById('content-history').style.display = tab === 'history' ? 'block' : 'none';
+        };
+
+        function resizeImage(file) {
+            return new Promise((resolve, reject) => {
+                const reader = new FileReader();
+                reader.readAsDataURL(file);
+                reader.onload = (event) => {
+                    const img = new Image();
+                    img.src = event.target.result;
+                    img.onload = () => {
+                        const canvas = document.createElement('canvas');
+                        const MAX_WIDTH = 800;
+                        const scaleSize = MAX_WIDTH / img.width;
+                        canvas.width = MAX_WIDTH;
+                        canvas.height = img.height * scaleSize;
+                        const ctx = canvas.getContext('2d');
+                        ctx.drawImage(img, 0, 0, canvas.width, canvas.height);
+                        resolve(canvas.toDataURL('image/jpeg', 0.7)); 
+                    }
+                    img.onerror = reject;
+                }
+                reader.onerror = reject;
+            });
+        }
+
+        window.addRunningTrade = async () => {
+            const btn = document.getElementById('btn-save-journal');
+            const pair = document.getElementById('j-pair').value.toUpperCase();
+            const direction = document.getElementById('j-direction').value;
+            const notes = document.getElementById('j-notes').value;
+            const fileInput = document.getElementById('j-image');
+
+            if(!pair) return alert("Enter Pair");
+
+            btn.innerText = "SAVING...";
+            btn.disabled = true;
+
+            let imageBase64 = null;
+            if (fileInput.files.length > 0) {
+                try {
+                    imageBase64 = await resizeImage(fileInput.files[0]);
+                } catch (e) {
+                    console.error(e);
+                    alert("Error processing image.");
+                    btn.disabled = false;
+                    btn.innerText = "LOG TRADE";
+                    return;
+                }
+            }
+
+            try {
+                await addDoc(collection(db, 'artifacts', appId, 'users', currentUser.uid, 'accounts', activeAccountId, 'trades'), {
+                    pair, direction, notes,
+                    image: imageBase64,
+                    status: 'OPEN',
+                    timestamp: Date.now()
+                });
+                document.getElementById('j-pair').value = '';
+                document.getElementById('j-notes').value = '';
+                document.getElementById('j-image').value = '';
+            } catch(e) { alert(e.message); } 
+            finally {
+                btn.innerText = "LOG TRADE";
+                btn.disabled = false;
+            }
+        };
+
+        function renderTrades(trades) {
+            const runningList = document.getElementById('running-list');
+            const historyList = document.getElementById('history-list');
+
+            const running = trades.filter(t => t.status === 'OPEN');
+            const history = trades.filter(t => t.status === 'CLOSED').sort((a,b) => b.timestamp - a.timestamp);
+
+            const tradeItem = (t) => `
+                <div class="glass-card" style="padding: 24px; background: rgba(255,255,255,0.02);">
+                    ${t.image ? `<div style="width: 100%; height: 160px; border-radius: 12px; background: url('${t.image}') center/cover; margin-bottom: 20px; cursor: pointer; border: 1px solid var(--border-subtle);" onclick="window.open('${t.image}')"></div>` : ''}
+                    <div style="display:flex; justify-content:space-between; margin-bottom:16px;">
+                        <span style="font-weight:700; color:#fff; font-size:18px;">${t.pair} <span style="font-size:12px; color:var(--text-secondary); background:rgba(255,255,255,0.05); padding:4px 10px; border-radius:8px; margin-left:10px;">${t.direction}</span></span>
+                        <span style="font-size:12px; color:var(--accent-green); font-weight:800; letter-spacing:1px; background:rgba(52, 211, 153, 0.1); padding:4px 10px; border-radius:8px;">RUNNING</span>
+                    </div>
+                    <div style="font-size:14px; color:var(--text-secondary); margin-bottom:24px; line-height:1.6;">${t.notes || 'No notes'}</div>
+                    <button onclick="window.openCloseTradeModal('${t.id}')" class="execute-btn ready" style="padding:14px; font-size:13px;">CLOSE TRADE</button>
+                </div>
+            `;
+
+            const historyItem = (t) => `
+                <div class="glass-card" style="padding: 24px; background: rgba(255,255,255,0.02);">
+                    <div style="display:flex; justify-content:space-between; align-items:center;">
+                        <div style="display:flex; align-items:center; gap:20px;">
+                            ${t.image ? `<div style="width: 60px; height: 60px; border-radius: 12px; background: url('${t.image}') center/cover; cursor: pointer; border: 1px solid var(--border-subtle);" onclick="window.open('${t.image}')"></div>` : ''}
+                            <div>
+                                <div style="font-weight:700; color:#fff; font-size: 16px; margin-bottom:6px;">${t.pair} <span style="font-size:12px; color:var(--text-secondary); margin-left: 8px;">${t.direction}</span></div>
+                                <div style="font-size:12px; color:var(--text-secondary);">${new Date(t.timestamp).toLocaleDateString()}</div>
+                            </div>
+                        </div>
+                        <div style="text-align:right;">
+                            <div style="font-size: 12px; font-weight: 800; text-transform: uppercase; padding: 6px 12px; border-radius: 8px; display: inline-block; background: ${t.outcome === 'WIN' ? 'rgba(52, 211, 153, 0.1)' : t.outcome === 'LOSS' ? 'rgba(248, 113, 113, 0.1)' : 'rgba(255,255,255,0.05)'}; color: ${t.outcome === 'WIN' ? 'var(--accent-green)' : t.outcome === 'LOSS' ? 'var(--accent-red)' : 'var(--text-secondary)'};">${t.outcome}</div>
+                            <div style="font-family:'JetBrains Mono'; font-weight:700; margin-top:8px; font-size: 16px; color:${t.pnl >= 0 ? 'var(--accent-green)' : 'var(--accent-red)'};">
+                                ${t.pnl >= 0 ? '+' : ''}$${t.pnl}
+                            </div>
+                        </div>
+                    </div>
+                    <div style="margin-top:20px; padding-top:20px; border-top:1px solid var(--border-subtle); text-align:right;">
+                        <button onclick="window.deleteTrade('${t.id}', ${t.pnl})" style="color:var(--accent-red); font-size:12px; font-weight:700; background:none; border:none; cursor:pointer; opacity:0.8; transition:opacity 0.2s;" onmouseover="this.style.opacity='1'" onmouseout="this.style.opacity='0.8'">
+                            <i class="fa-solid fa-trash mr-1"></i> DELETE ENTRY
+                        </button>
+                    </div>
+                </div>
+            `;
+
+            runningList.innerHTML = running.length ? running.map(tradeItem).join('') : '<div style="color:var(--text-secondary); text-align:center; padding:60px; font-size: 14px;">No active trades running.</div>';
+            historyList.innerHTML = history.length ? history.map(historyItem).join('') : '<div style="color:var(--text-secondary); text-align:center; padding:60px; font-size: 14px;">No trade history available.</div>';
+        }
+
+        window.openCloseTradeModal = (id) => {
+            document.getElementById('close-trade-id').value = id;
+            window.openModal('close-trade-modal');
+        };
+
+        window.confirmCloseTrade = async () => {
+            const id = document.getElementById('close-trade-id').value;
+            const outcome = document.getElementById('close-outcome').value;
+            let rawPnl = parseFloat(document.getElementById('close-pnl').value);
+
+            if(isNaN(rawPnl)) return alert("Enter valid Amount");
+
+            let pnl = Math.abs(rawPnl);
+            if (outcome === 'LOSS') { pnl = -pnl; }
+
+            try {
+                await updateDoc(doc(db, 'artifacts', appId, 'users', currentUser.uid, 'accounts', activeAccountId, 'trades', id), {
+                    status: 'CLOSED',
+                    outcome: outcome,
+                    pnl: pnl,
+                    closedAt: Date.now()
+                });
+
+                const newBal = activeAccountData.currentBalance + pnl;
+                await updateDoc(doc(db, 'artifacts', appId, 'users', currentUser.uid, 'accounts', activeAccountId), {
+                    currentBalance: newBal
+                });
+
+                window.closeModal('close-trade-modal');
+                document.getElementById('close-pnl').value = '';
+
+                if (outcome === 'WIN') {
+                    confetti({ particleCount: 150, spread: 80, origin: { y: 0.6 }, colors: ['#fbbf24', '#10b981'] });
+                }
+
+            } catch(e) { alert(e.message); }
+        };
+
+        window.deleteTrade = async (tradeId, pnl) => {
+            if (!confirm("Are you sure? This will revert the balance change.")) return;
+            try {
+                const newBal = activeAccountData.currentBalance - pnl;
+                await updateDoc(doc(db, 'artifacts', appId, 'users', currentUser.uid, 'accounts', activeAccountId), {
+                    currentBalance: newBal
+                });
+                await deleteDoc(doc(db, 'artifacts', appId, 'users', currentUser.uid, 'accounts', activeAccountId, 'trades', tradeId));
+            } catch(e) { alert(e.message); }
+        };
+
+        const strategies = {
+            hs: { 
                 title: "H&S Divergence", 
                 items: ["Divergence Check", "Daily & 4h Trend Alignment", "H&S Pattern Confirmation", "Neckline Break & Retest", "1h or 4h Structure OK", "1h or 4h SOS", "SOS Retest", "Candle Engulfing Break"], 
                 risk: ["Risk 1-2% Max", "Min 1:2 R:R Ratio", "News Calendar Clean"] 
             },
-            divTab: { 
+            div: { 
                 title: "Normal Divergence", 
                 items: ["Divergence Check", "Trend Alignment", "AOI Break & Retest", "Structure Validation", "Sign of Strength", "SOS Retest", "Candle Confirmation"], 
                 risk: ["Risk 1-2% Max", "Min 1:2 R:R Ratio", "News Calendar Check"] 
             },
-            mainNormalTab: { 
+            main: { 
                 title: "Main Setup", 
                 items: ["TF Trend Alignment", "No Divergence", "Identify Major AOI", "AOI Break & Retest", "2nd AOI Validation", "1h Structure (3 Candle Rule)", "1h SOS Confirmation", "SOS Retest"], 
                 risk: ["Risk 1-2% Max", "Min 1:2 R:R Ratio", "Economic Calendar Check"] 
-            },
-            calcTab: {
-                title: "Position Calc",
-                isCalc: true
             }
         };
 
-        let activeTab = 'hsTab';
+        const navTabs = {
+            strategy: { title: "G & P Strategy", type: 'strategy' },
+            calc: { title: "Position Calc", type: 'calc' },
+            journal: { title: "Journal", type: 'journal' },
+            analysis: { title: "Market Analysis", type: 'analysis' }
+        };
+
+        let activeNav = 'strategy';
+        let activeStrat = 'hs';
         let checkedItems = {};
         
-        function calculateSize() {
+        window.calculateSize = function() {
             const balance = parseFloat(document.getElementById('calc-balance').value);
             const riskPct = parseFloat(document.getElementById('calc-risk').value);
             const sl = parseFloat(document.getElementById('calc-sl').value);
-            const pipValue = 10; // Approx standard for USD pairs
+            const pipValue = 10; 
 
             if (!balance || !riskPct || !sl) {
                 alert("Please fill all fields");
@@ -650,12 +2062,8 @@
             }
 
             const riskAmount = balance * (riskPct / 100);
-            // Standard Lot = $10 per pip
-            // Formula: Risk / (SL * PipValuePerLot)
             const lots = riskAmount / (sl * pipValue);
-            
-            // Format
-            const lotsFormatted = Math.floor(lots * 100) / 100; // Floor to 2 decimals safely
+            const lotsFormatted = Math.floor(lots * 100) / 100;
             const units = lotsFormatted * 100000;
 
             document.getElementById('res-risk-amt').innerText = `$${riskAmount.toFixed(2)}`;
@@ -665,45 +2073,134 @@
             document.getElementById('calc-result').style.display = 'block';
         }
 
-        function toggleItem(tab, idx) {
-            const id = `${tab}-${idx}`;
+        window.toggleItem = function(strategy, idx) {
+            const id = `${strategy}-${idx}`;
             checkedItems[id] = !checkedItems[id];
             render();
         }
 
-        function resetChecks() {
+        window.switchStrategy = function(strat) {
+            activeStrat = strat;
+            render();
+        }
+
+        window.resetChecks = function() {
             checkedItems = {};
             render();
         }
 
-        function render() {
-            const tabs = document.getElementById('tabs-container');
-            tabs.innerHTML = Object.entries(setups).map(([k, v]) => `
-                <button onclick="activeTab='${k}'; render()" class="tab-btn ${activeTab === k ? 'active' : ''}">
+        window.switchNav = function(nav) {
+            // Updated: Blur functionality
+            if (nav === 'strategy' && !strategyUnlocked) {
+                document.getElementById('main-terminal-content').classList.add('blur-terminal');
+                window.openModal('strategy-password-modal');
+                return; 
+            }
+            
+            // If unlocked, remove blur and proceed
+            document.getElementById('main-terminal-content').classList.remove('blur-terminal');
+            activeNav = nav;
+            render();
+        }
+        
+        window.checkStrategyPassword = function() {
+            const pwd = document.getElementById('strat-password-input').value;
+            if (pwd === '2007') {
+                strategyUnlocked = true;
+                window.closeModal('strategy-password-modal');
+                document.getElementById('main-terminal-content').classList.remove('blur-terminal');
+                window.switchNav('strategy');
+                document.getElementById('strat-password-input').value = ''; 
+            } else {
+                document.getElementById('strat-password-error').style.display = 'block';
+            }
+        }
+
+        window.saveSymbol = async function() {
+            const symbol = document.getElementById('chart-symbol-input').value.toUpperCase();
+            if (!symbol) return;
+            new TradingView.widget({
+              "width": "100%", "height": "100%", "symbol": symbol, "interval": "D", "timezone": "Etc/UTC", "theme": "dark", "style": "1", "locale": "en", "toolbar_bg": "#f1f3f6", "enable_publishing": false, "hide_side_toolbar": false, "allow_symbol_change": true, "details": true, "hotlist": true, "calendar": true, "container_id": "tradingview_b239c", "user_id": currentUser ? currentUser.uid : 'public_user', "autosave": true 
+            });
+            
+            if (currentUser) {
+                try {
+                    await updateDoc(doc(db, 'artifacts', appId, 'users', currentUser.uid, 'settings', 'general'), { lastAnalysisSymbol: symbol });
+                } catch (e) {
+                    try { await setDoc(doc(db, 'artifacts', appId, 'users', currentUser.uid, 'settings', 'general'), { lastAnalysisSymbol: symbol }); } catch (innerE) { console.log("Settings save error", innerE); }
+                }
+            }
+        };
+
+        window.loadSymbol = async function() {
+             if (!currentUser) return;
+             let savedSymbol = "EURUSD"; 
+             try {
+                const docSnap = await getDoc(doc(db, 'artifacts', appId, 'users', currentUser.uid, 'settings', 'general'));
+                if (docSnap.exists() && docSnap.data().lastAnalysisSymbol) { savedSymbol = docSnap.data().lastAnalysisSymbol; }
+             } catch(e) { console.log("Load symbol error", e); }
+             
+             const input = document.getElementById('chart-symbol-input');
+             if(input) input.value = savedSymbol;
+             
+             if(window.TradingView) {
+                 new TradingView.widget({ "width": "100%", "height": "100%", "symbol": savedSymbol, "interval": "D", "timezone": "Etc/UTC", "theme": "dark", "style": "1", "locale": "en", "toolbar_bg": "#f1f3f6", "enable_publishing": false, "hide_side_toolbar": false, "allow_symbol_change": true, "details": true, "hotlist": true, "calendar": true, "container_id": "tradingview_b239c", "user_id": currentUser.uid, "autosave": true });
+             }
+        };
+
+        window.render = function() {
+            const tabsContainer = document.getElementById('tabs-container');
+            tabsContainer.innerHTML = Object.entries(navTabs).map(([k, v]) => `
+                <button onclick="window.switchNav('${k}')" class="tab-btn ${activeNav === k ? 'active' : ''}">
                     ${v.title}
                 </button>
             `).join('');
 
-            const s = setups[activeTab];
             const checklistView = document.getElementById('checklist-view');
             const calcView = document.getElementById('calc-view');
+            const journalView = document.getElementById('journal-view');
+            const analysisView = document.getElementById('analysis-view');
             const progressContainer = document.getElementById('progress-container');
+            const resetBtn = document.getElementById('reset-btn');
 
-            if (s.isCalc) {
-                checklistView.classList.add('hidden');
+            checklistView.classList.add('hidden');
+            calcView.classList.add('hidden');
+            journalView.classList.add('hidden');
+            if(analysisView) { analysisView.classList.add('hidden'); analysisView.style.display = 'none'; }
+            progressContainer.style.display = 'none';
+            resetBtn.style.display = 'none';
+
+            const currentTab = navTabs[activeNav];
+
+            if (currentTab.type === 'calc') {
                 calcView.classList.remove('hidden');
-                progressContainer.style.display = 'none';
-            } else {
+            } else if (currentTab.type === 'journal') {
+                journalView.classList.remove('hidden');
+            } else if (currentTab.type === 'analysis') {
+                if(analysisView) { analysisView.classList.remove('hidden'); analysisView.style.display = 'flex'; }
+                if(window.TradingView && !document.getElementById('tradingview_b239c').querySelector('iframe')) {
+                     let symbolToLoad = document.getElementById('chart-symbol-input').value || "EURUSD";
+                     new TradingView.widget({ "autosize": true, "symbol": symbolToLoad, "interval": "D", "timezone": "Etc/UTC", "theme": "dark", "style": "1", "locale": "en", "toolbar_bg": "#f1f3f6", "enable_publishing": false, "hide_side_toolbar": false, "allow_symbol_change": true, "details": true, "hotlist": true, "calendar": true, "container_id": "tradingview_b239c", "user_id": currentUser ? currentUser.uid : 'public', "autosave": true });
+                }
+            } else if (currentTab.type === 'strategy') {
                 checklistView.classList.remove('hidden');
-                calcView.classList.add('hidden');
                 progressContainer.style.display = 'block';
+                resetBtn.style.display = 'block';
                 
+                const stratSelector = document.getElementById('strategy-selector');
+                stratSelector.innerHTML = Object.entries(strategies).map(([k, v]) => `
+                    <button onclick="window.switchStrategy('${k}')" class="inner-tab ${activeStrat === k ? 'active' : ''}">
+                        ${v.title}
+                    </button>
+                `).join('');
+
+                const s = strategies[activeStrat];
                 document.getElementById('active-title').innerText = s.title;
-                document.getElementById('tech-items').innerHTML = s.items.map((it, i) => renderCard(it, activeTab, i)).join('');
-                document.getElementById('risk-items').innerHTML = s.risk.map((it, i) => renderCard(it, activeTab, s.items.length + i)).join('');
+                document.getElementById('tech-items').innerHTML = s.items.map((it, i) => window.renderCard(it, activeStrat, i)).join('');
+                document.getElementById('risk-items').innerHTML = s.risk.map((it, i) => window.renderCard(it, activeStrat, s.items.length + i)).join('');
 
                 const total = s.items.length + s.risk.length;
-                const done = [...s.items, ...s.risk].filter((_, i) => checkedItems[`${activeTab}-${i}`]).length;
+                const done = [...s.items, ...s.risk].filter((_, i) => checkedItems[`${activeStrat}-${i}`]).length;
                 const prog = Math.round((done / total) * 100);
 
                 document.getElementById('progress-bar').style.width = `${prog}%`;
@@ -717,7 +2214,7 @@
                     btn.disabled = false;
                     btn.className = "execute-btn ready";
                     btn.innerHTML = `<span>EXECUTE TRADE</span>`;
-                    vBox.style.background = "rgba(0, 255, 136, 0.05)";
+                    vBox.style.background = "rgba(16, 185, 129, 0.1)";
                     vBox.style.borderColor = "var(--accent-green)";
                     vTxt.innerHTML = `<strong style="color: var(--accent-green);">✓ ALL SYSTEMS GO</strong><br><span style="color: var(--text-secondary);">All conditions met. Execute with confidence.</span>`;
                 } else {
@@ -732,45 +2229,48 @@
             }
         }
 
-        function renderCard(label, tab, idx) {
-            const checked = !!checkedItems[`${tab}-${idx}`];
+        window.renderCard = function(label, strategy, idx) {
+            const checked = !!checkedItems[`${strategy}-${idx}`];
             return `
-                <div onclick="toggleItem('${tab}', ${idx})" class="check-item ${checked ? 'checked' : ''}">
+                <div onclick="window.toggleItem('${strategy}', ${idx})" class="check-item ${checked ? 'checked' : ''}">
                     <div class="checkbox">
-                        ${checked ? '<i class="fa-solid fa-check" style="font-size: 12px; color: #000; font-weight: 900;"></i>' : ''}
+                        ${checked ? '<i class="fa-solid fa-check" style="font-size: 14px;"></i>' : ''}
                     </div>
-                    <span style="font-size: 14px; font-weight: 600; color: ${checked ? 'var(--text-primary)' : 'var(--text-secondary)'};">${label}</span>
+                    <span style="font-size: 13px; font-weight: 600; color: ${checked ? 'var(--text-primary)' : 'var(--text-secondary)'}; letter-spacing: 0.5px;">${label}</span>
                 </div>
             `;
         }
 
-        function updateClocks() {
+        window.updateClocks = function() {
             const opt = { hour: '2-digit', minute: '2-digit', second: '2-digit', hour12: false };
             document.getElementById('clock-london').innerText = new Date().toLocaleTimeString('en-GB', { ...opt, timeZone: 'Europe/London' });
             document.getElementById('clock-newyork').innerText = new Date().toLocaleTimeString('en-GB', { ...opt, timeZone: 'America/New_York' });
             document.getElementById('clock-colombo').innerText = new Date().toLocaleTimeString('en-GB', { ...opt, timeZone: 'Asia/Colombo' });
         }
 
-        function updateSessions() {
+        window.updateSessions = function() {
             const hr = new Date().getUTCHours();
             const sess = [{n:'London',s:8,e:17}, {n:'New York',s:13,e:22}, {n:'Tokyo',s:0,e:9}];
             document.getElementById('sessions-container').innerHTML = sess.map(s => {
                 const open = hr >= s.s && hr < s.e;
                 return `
-                    <div class="session-item ${open ? 'active' : ''}">
-                        <span style="font-size: 12px; font-weight: 700; color: ${open ? 'var(--text-primary)' : 'var(--text-secondary)'};">${s.n}</span>
-                        <span class="session-badge ${open ? 'active' : 'offline'}">${open ? 'ACTIVE' : 'CLOSED'}</span>
+                    <div class="glass-card" style="display:flex; justify-content:space-between; align-items:center; padding:12px 16px; margin-bottom:8px; border-radius:12px; background:${open ? 'rgba(52, 211, 153, 0.05)' : 'rgba(255,255,255,0.02)'}; border-color:${open ? 'rgba(52, 211, 153, 0.2)' : 'var(--border-subtle)'};">
+                        <span style="font-size: 12px; font-weight: 700; color: ${open ? '#fff' : 'var(--text-secondary)'}; text-transform:uppercase; letter-spacing:1px;">${s.n}</span>
+                        <span class="status-live" style="padding:4px 10px; font-size:10px; background:${open ? 'var(--accent-green)' : 'rgba(255,255,255,0.1)'}; border:none; color:${open ? '#000' : 'var(--text-secondary)'};">
+                            ${open ? 'ACTIVE' : 'CLOSED'}
+                        </span>
                     </div>
                 `;
             }).join('');
         }
 
         window.onload = () => {
-            updateClocks(); 
-            updateSessions(); 
-            render();
-            setInterval(updateClocks, 1000); 
-            setInterval(updateSessions, 30000);
+            window.updateClocks(); 
+            window.updateSessions(); 
+            window.render();
+            setInterval(window.updateClocks, 1000); 
+            setInterval(window.updateSessions, 30000);
+            updateSessionMonitor(); // Init Session Monitor
         }
     </script>
 </body>
